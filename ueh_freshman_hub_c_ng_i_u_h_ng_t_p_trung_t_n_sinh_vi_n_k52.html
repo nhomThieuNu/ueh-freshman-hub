@@ -1,0 +1,2002 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UEH Freshman Hub — Cổng Điều Hướng Tập Trung Tân Sinh Viên K52</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            ueh: {
+              teal: '#005F69',
+              tealDark: '#00454D',
+              tealLight: '#E6F3F4',
+              mint: '#F0F7F4',
+              sage: '#D8ECE6',
+              orange: '#F26F21',
+              orangeLight: '#FFF2EB',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: #F4F8F7;
+      color: #0F172A;
+    }
+    .ueh-gradient {
+      background: linear-gradient(135deg, #00454D 0%, #005F69 55%, #0B7A75 100%);
+    }
+    .card-hover {
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -6px rgba(0, 95, 105, 0.14);
+    }
+    .highlight-pulse {
+      animation: pulseRing 1.8s ease-out;
+    }
+    @keyframes pulseRing {
+      0% { box-shadow: 0 0 0 0 rgba(242, 111, 33, 0.65); }
+      70% { box-shadow: 0 0 0 14px rgba(242, 111, 33, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(242, 111, 33, 0); }
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #E6F3F4; }
+    ::-webkit-scrollbar-thumb { background: #005F69; border-radius: 9999px; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-ueh-teal selection:text-white">
+
+  <!-- TOP PROTOTYPE CONTROL BAR (Can be hidden in Clean Screenshot Mode) -->
+  <div id="prototypeBanner" class="bg-slate-900 text-slate-100 text-xs border-b border-slate-700 px-4 py-2">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          Low-cost Interactive Prototype
+        </span>
+        <span class="text-slate-300 hidden sm:inline">Mẫu thử tương tác môn Tư duy Thiết kế (Design Thinking) • Nguyên tắc <strong>"3-Click Rule"</strong></span>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1.5 bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700">
+          <span class="text-slate-400">Bộ đếm thao tác:</span>
+          <span id="clickCounterBadge" class="font-bold text-amber-400">0 / 3 Click</span>
+          <button id="resetClickCounterBtn" type="button" class="ml-1 text-[11px] text-slate-300 hover:text-white underline">Đặt lại</button>
+        </div>
+        <button id="openWalkthroughBtn" type="button" class="px-2.5 py-1 rounded-lg bg-ueh-orange text-white font-semibold hover:bg-orange-600 transition">
+          ▶ Mô phỏng Luồng 3-Click
+        </button>
+        <button id="toggleCleanModeBtn" type="button" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 transition" title="Ẩn thanh công cụ mẫu thử để chụp màn hình đưa vào báo cáo Word / Slide">
+          📸 Chế độ Chụp ảnh Báo cáo
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING RESTORE BUTTON WHEN IN CLEAN SCREENSHOT MODE -->
+  <button id="restorePrototypeBannerBtn" type="button" class="hidden fixed bottom-4 left-4 z-50 px-3.5 py-2 rounded-full bg-slate-900/90 text-white text-xs font-semibold shadow-lg hover:bg-slate-800 border border-slate-700">
+    ⚙ Hiện thanh công cụ Prototype
+  </button>
+
+  <!-- STICKY NAVIGATION HEADER -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <!-- Brand Identity -->
+      <a href="#heroSection" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl ueh-gradient flex items-center justify-center text-white font-extrabold text-sm tracking-tight shadow-sm group-hover:scale-105 transition">
+          UEH
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-lg text-ueh-teal tracking-tight">UEH Freshman Hub</span>
+            <span class="text-[11px] font-bold uppercase px-2 py-0.5 rounded-full bg-ueh-orangeLight text-ueh-orange border border-orange-200">K52 Portal</span>
+          </div>
+          <p class="text-xs text-slate-500">Cổng thông tin & Điều hướng tập trung cho Tân sinh viên UEH</p>
+        </div>
+      </a>
+
+      <!-- Section Navigation Pills (1-Click jump to any of the 5 sections) -->
+      <nav class="flex items-center gap-1 sm:gap-1.5 overflow-x-auto max-w-full py-1 text-xs sm:text-sm font-medium">
+        <a href="#heroSection" class="nav-pill px-3 py-1.5 rounded-lg text-slate-700 hover:bg-ueh-tealLight hover:text-ueh-teal transition whitespace-nowrap">1. Tìm kiếm</a>
+        <a href="#sectionLaunchpad" class="nav-pill px-3 py-1.5 rounded-lg text-slate-700 hover:bg-ueh-tealLight hover:text-ueh-teal transition whitespace-nowrap">2. Launchpad (4 Nhóm)</a>
+        <a href="#sectionRoadmap" class="nav-pill px-3 py-1.5 rounded-lg text-slate-700 hover:bg-ueh-tealLight hover:text-ueh-teal transition whitespace-nowrap">3. Lộ trình K52</a>
+        <a href="#sectionFeed" class="nav-pill px-3 py-1.5 rounded-lg text-slate-700 hover:bg-ueh-tealLight hover:text-ueh-teal transition whitespace-nowrap">4. Bảng tin & Học bổng</a>
+        <a href="#sectionFaq" class="nav-pill px-3 py-1.5 rounded-lg text-slate-700 hover:bg-ueh-tealLight hover:text-ueh-teal transition whitespace-nowrap">5. Cứu nguy FAQ</a>
+      </nav>
+
+      <!-- Student Email Account Personalization Sync Toggle -->
+      <div class="flex items-center gap-2">
+        <button id="accountSyncBtn" type="button" class="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold border transition bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-100">
+          <span id="accountSyncDot" class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span id="accountSyncLabel">Đã đồng bộ: nghia.k52@st.ueh.edu.vn</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-1">
+
+    <!-- =================================================================== -->
+    <!-- KHU VỰC 1: HEADER & THANH TÌM KIẾM THÔNG MINH (HERO SEARCH BAR)      -->
+    <!-- =================================================================== -->
+    <section id="heroSection" class="ueh-gradient text-white relative overflow-hidden py-10 sm:py-14 px-4 sm:px-6">
+      <!-- Subtle decorative background circles -->
+      <div class="pointer-events-none absolute -top-24 -right-24 w-80 h-80 rounded-full bg-white/5 blur-2xl"></div>
+      <div class="pointer-events-none absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-ueh-orange/15 blur-2xl"></div>
+
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/15 backdrop-blur-sm text-xs font-semibold text-teal-50 mb-4 border border-white/20">
+          <span>✨ Khu vực 1: Hero Search Bar & Quick Tags</span>
+          <span>•</span>
+          <span>Chạm tới đúng cổng thông tin trong ≤ 3 cú nhấp chuột</span>
+        </div>
+
+        <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight mb-3">
+          "Chào tân sinh viên UEH! Hôm nay bạn cần tra cứu hay thực hiện thủ tục gì?"
+        </h1>
+        <p class="text-sm sm:text-base text-teal-100 max-w-2xl mx-auto mb-7">
+          Không cần nhớ hàng chục đường link rời rạc. Nhập nhu cầu của bạn hoặc chọn thẻ từ khóa bên dưới để mở thẳng cổng thông tin chính thức kèm hướng dẫn từng bước.
+        </p>
+
+        <!-- SEARCH INPUT + AUTO-SUGGEST DROPDOWN -->
+        <div class="relative max-w-2xl mx-auto text-left">
+          <div class="flex items-center bg-white rounded-2xl p-1.5 shadow-xl border-2 border-transparent focus-within:border-ueh-orange transition">
+            <div class="pl-3.5 pr-2 text-slate-400">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z"></path>
+              </svg>
+            </div>
+            <input
+              id="heroSearchInput"
+              type="text"
+              autocomplete="off"
+              placeholder="Gõ từ khóa (VD: đăng ký học phần, điểm rèn luyện, học bổng K52, xe buýt, quên mật khẩu...)"
+              class="w-full py-2.5 px-2 text-sm sm:text-base text-slate-800 placeholder-slate-400 focus:outline-none bg-transparent"
+            />
+            <button
+              id="clearSearchBtn"
+              type="button"
+              class="hidden px-2.5 py-1.5 text-xs font-semibold text-slate-500 hover:text-slate-800"
+              title="Xóa từ khóa"
+            >
+              ✕ Xóa
+            </button>
+            <button
+              id="heroSearchSubmitBtn"
+              type="button"
+              class="px-4 sm:px-5 py-2.5 rounded-xl bg-ueh-orange hover:bg-orange-600 text-white font-bold text-xs sm:text-sm whitespace-nowrap transition shadow-sm"
+            >
+              Tra cứu ngay
+            </button>
+          </div>
+
+          <!-- AUTO-SUGGEST SEARCH DROPDOWN (Mockup giao diện gợi ý kết quả tìm kiếm tức thì) -->
+          <div
+            id="searchDropdown"
+            class="hidden absolute left-0 right-0 mt-2 bg-white text-slate-800 rounded-2xl shadow-2xl border border-slate-200 overflow-hidden z-30"
+          >
+            <div class="px-4 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between text-xs text-slate-500">
+              <span class="font-semibold text-ueh-teal">⚡ Gợi ý kết quả tức thì (Auto-suggest Search Dropdown)</span>
+              <span id="searchDropdownCount" class="font-medium">Hiển thị kết quả phù hợp</span>
+            </div>
+            <div id="searchDropdownList" class="max-h-80 overflow-y-auto divide-y divide-slate-100"></div>
+          </div>
+        </div>
+
+        <!-- QUICK TAGS (Thẻ từ khóa tìm kiếm phổ biến) -->
+        <div class="mt-5 flex flex-wrap items-center justify-center gap-2">
+          <span class="text-xs font-semibold text-teal-100 mr-1">Từ khóa phổ biến (Quick Tags):</span>
+          <button type="button" data-tag="#ĐăngKýHọcPhần" data-query="Đăng ký học phần" class="quick-tag-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-white/15 hover:bg-ueh-orange hover:text-white text-white border border-white/25 transition">
+            #ĐăngKýHọcPhần
+          </button>
+          <button type="button" data-tag="#ĐiểmRènLuyện" data-query="Điểm rèn luyện" class="quick-tag-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-white/15 hover:bg-ueh-orange hover:text-white text-white border border-white/25 transition">
+            #ĐiểmRènLuyện
+          </button>
+          <button type="button" data-tag="#HọcBổngK52" data-query="Học bổng K52" class="quick-tag-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-white/15 hover:bg-ueh-orange hover:text-white text-white border border-white/25 transition">
+            #HọcBổngK52
+          </button>
+          <button type="button" data-tag="#MượnSáchThưViện" data-query="Mượn sách thư viện" class="quick-tag-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-white/15 hover:bg-ueh-orange hover:text-white text-white border border-white/25 transition">
+            #MượnSáchThưViện
+          </button>
+          <button type="button" data-tag="#XeBuýtUEH" data-query="Xe buýt UEH" class="quick-tag-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-white/15 hover:bg-ueh-orange hover:text-white text-white border border-white/25 transition">
+            #XeBuýtUEH
+          </button>
+          <button type="button" data-tag="#XinGiấyXácNhận" data-query="Xin giấy xác nhận" class="quick-tag-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-white/15 hover:bg-ueh-orange hover:text-white text-white border border-white/25 transition">
+            #XinGiấyXácNhận
+          </button>
+        </div>
+
+        <!-- 3-CLICK RULE VISUAL INDICATOR BAR -->
+        <div class="mt-7 max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-left">
+          <div class="bg-white/10 backdrop-blur-sm border border-white/15 rounded-xl px-3.5 py-2.5 flex items-center gap-3">
+            <span class="w-7 h-7 rounded-lg bg-ueh-orange text-white font-extrabold text-xs flex items-center justify-center shrink-0">1</span>
+            <div>
+              <p class="text-xs font-bold text-white">Click 1: Chọn nhu cầu</p>
+              <p class="text-[11px] text-teal-100">Bấm Quick Tag hoặc chọn nhóm thẻ Launchpad</p>
+            </div>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm border border-white/15 rounded-xl px-3.5 py-2.5 flex items-center gap-3">
+            <span class="w-7 h-7 rounded-lg bg-ueh-orange text-white font-extrabold text-xs flex items-center justify-center shrink-0">2</span>
+            <div>
+              <p class="text-xs font-bold text-white">Click 2: Xem "3 việc sẽ làm"</p>
+              <p class="text-[11px] text-teal-100">Đọc tóm tắt chức năng hoặc mở hướng dẫn nhanh</p>
+            </div>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm border border-white/15 rounded-xl px-3.5 py-2.5 flex items-center gap-3">
+            <span class="w-7 h-7 rounded-lg bg-emerald-500 text-white font-extrabold text-xs flex items-center justify-center shrink-0">3</span>
+            <div>
+              <p class="text-xs font-bold text-white">Click 3: Chạm đúng trang đích</p>
+              <p class="text-[11px] text-teal-100">Mở thẳng cổng chính thức của UEH không bị lạc</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACTIVE QUICK TAG / SEARCH RESULT BANNER (Appears when a tag/search is selected) -->
+    <section id="instantSearchBanner" class="hidden max-w-7xl mx-auto px-4 sm:px-6 pt-6">
+      <div class="bg-white rounded-2xl border-2 border-ueh-orange shadow-md p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span id="instantBannerTag" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-ueh-orange text-white">#TừKhóa</span>
+            <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">✓ Đạt chuẩn 3-Click Rule (2 thao tác)</span>
+          </div>
+          <h3 id="instantBannerTitle" class="text-base sm:text-lg font-extrabold text-slate-900">Kết quả điều hướng nhanh</h3>
+          <p id="instantBannerDesc" class="text-xs sm:text-sm text-slate-600"></p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 shrink-0">
+          <a id="instantBannerLink" href="https://student.ueh.edu.vn/" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-ueh-teal hover:bg-ueh-tealDark text-white text-xs sm:text-sm font-bold transition shadow-sm">
+            Truy cập trang chính thức ↗
+          </a>
+          <button id="instantBannerGuideBtn" type="button" class="px-3.5 py-2 rounded-xl bg-ueh-tealLight hover:bg-ueh-sage text-ueh-teal text-xs sm:text-sm font-bold transition">
+            Xem hướng dẫn 3 bước
+          </button>
+          <button id="closeInstantBannerBtn" type="button" class="px-2.5 py-2 rounded-xl text-slate-400 hover:text-slate-700 text-xs font-semibold">
+            Đóng
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- PHÂN KHU 1: TRUNG TÂM ĐIỀU HƯỚNG CỔNG THÔNG TIN (LAUNCHPAD)         -->
+    <!-- =================================================================== -->
+    <section id="sectionLaunchpad" class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ueh-tealLight text-ueh-teal text-xs font-bold mb-2">
+            <span>Phân khu 1</span>
+            <span>•</span>
+            <span>UEH All-in-One Launchpad</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">
+            Trung tâm Điều hướng Cổng thông tin Tập trung
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 mt-1">
+            Chia thành <strong>4 nhóm màu sắc nhận diện thương hiệu UEH (Xanh cổ vịt – Cam)</strong>. Mỗi thẻ liệt kê rõ <strong>"3 việc bạn sẽ làm tại trang này"</strong> kèm đường dẫn thực tế và hướng dẫn thao tác.
+          </p>
+        </div>
+
+        <!-- Category Filter Tabs -->
+        <div class="flex flex-wrap items-center gap-1.5 bg-white p-1.5 rounded-xl border border-slate-200 shadow-sm">
+          <button type="button" data-launchpad-filter="all" class="launchpad-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-ueh-teal text-white transition">
+            Tất cả (4 nhóm)
+          </button>
+          <button type="button" data-launchpad-filter="academic" class="launchpad-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 transition">
+            Học tập & Khảo thí
+          </button>
+          <button type="button" data-launchpad-filter="life" class="launchpad-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 transition">
+            Đời sống & Hỗ trợ
+          </button>
+          <button type="button" data-launchpad-filter="activity" class="launchpad-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 transition">
+            Hoạt động & ĐRL
+          </button>
+          <button type="button" data-launchpad-filter="library" class="launchpad-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 transition">
+            Thư viện & Nghiên cứu
+          </button>
+        </div>
+      </div>
+
+      <!-- 4 LAUNCHPAD GRID CARDS -->
+      <div id="launchpadGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- PHÂN KHU 2: LỘ TRÌNH TÂN SINH VIÊN TƯƠNG TÁC (ROADMAP 4 CHẶNG)      -->
+    <!-- =================================================================== -->
+    <section id="sectionRoadmap" class="bg-white border-y border-slate-200 py-10 px-4 sm:px-6">
+      <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold mb-2">
+              <span>Phân khu 2</span>
+              <span>•</span>
+              <span>Interactive Freshman Roadmap</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">
+              Lộ trình Tân sinh viên Tương tác (4 Chặng Thời gian)
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">
+              Đánh dấu (Checkbox) các đầu việc đã hoàn thành theo từng giai đoạn năm nhất. Tiến độ được đồng bộ tự động theo tài khoản sinh viên <strong>@st.ueh.edu.vn</strong>.
+            </p>
+          </div>
+
+          <!-- Progress Summary Card -->
+          <div class="bg-ueh-mint border border-emerald-200 rounded-2xl p-4 sm:min-w-[340px]">
+            <div class="flex items-center justify-between text-xs font-bold text-slate-700 mb-1.5">
+              <span id="roadmapSyncStatusText">Tiến độ cá nhân (nghia.k52@st.ueh.edu.vn)</span>
+              <span id="roadmapProgressPercent" class="text-ueh-teal text-sm font-extrabold">0% (0/13 mục)</span>
+            </div>
+            <div class="w-full h-2.5 bg-white rounded-full overflow-hidden border border-emerald-200">
+              <div id="roadmapProgressBar" class="h-full bg-ueh-teal transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <div class="mt-2.5 flex items-center justify-between gap-2 text-[11px] text-slate-600">
+              <span>Tự động lưu trạng thái trên trình duyệt</span>
+              <div class="flex items-center gap-2">
+                <button id="checkStage1Btn" type="button" class="text-ueh-teal font-semibold hover:underline">Hoàn thành Chặng 1</button>
+                <span>•</span>
+                <button id="resetRoadmapBtn" type="button" class="text-slate-500 hover:text-red-600 font-semibold">Đặt lại</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stage Selector Tabs -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6" id="roadmapStageTabs"></div>
+
+        <!-- 4 Stages Grid -->
+        <div id="roadmapStagesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- PHÂN KHU 3: BẢNG TIN SỰ KIỆN & HỌC BỔNG CÓ BỘ LỌC THÔNG MINH        -->
+    <!-- =================================================================== -->
+    <section id="sectionFeed" class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ueh-orangeLight text-ueh-orange border border-orange-200 text-xs font-bold mb-2">
+            <span>Phân khu 3</span>
+            <span>•</span>
+            <span>Smart Event & Scholarship Feed</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">
+            Bảng tin Sự kiện & Học bổng có Bộ lọc Thông minh
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 mt-1">
+            Tổng hợp các thông báo mới nhất từ <a href="https://dsa.ueh.edu.vn/" target="_blank" rel="noopener noreferrer" class="text-ueh-teal font-semibold underline">Ban Chăm sóc người học (DSA)</a> và <a href="https://youth.ueh.edu.vn/category/ho-tro-sinh-vien-2/" target="_blank" rel="noopener noreferrer" class="text-ueh-teal font-semibold underline">Đoàn – Hội UEH Youth</a>, kèm nhãn tiêu chí Điểm rèn luyện và đồng bộ lịch.
+          </p>
+        </div>
+
+        <button id="toggleCalendarFlowBtn" type="button" class="self-start lg:self-auto px-4 py-2 rounded-xl bg-ueh-teal text-white text-xs sm:text-sm font-bold hover:bg-ueh-tealDark transition shadow-sm flex items-center gap-2">
+          <span>📅 Xem Sơ đồ Luồng Đồng bộ Google Calendar</span>
+        </button>
+      </div>
+
+      <!-- COLLAPSIBLE ADVANCED FEATURE DIAGRAM: GOOGLE CALENDAR SYNC FLOW (From Table 2) -->
+      <div id="calendarFlowDiagram" class="mb-6 bg-white rounded-2xl border border-teal-200 shadow-sm p-5">
+        <div class="flex items-center justify-between gap-2 mb-3">
+          <div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-ueh-teal bg-ueh-tealLight px-2.5 py-0.5 rounded-full">Minh họa Tính năng Nâng cao (Mục 2 Báo cáo)</span>
+            <h3 class="text-base font-extrabold text-slate-900 mt-1">Sơ đồ Luồng Đồng bộ Thông báo Tự động & Nhắc lịch qua Google Calendar Sinh viên</h3>
+          </div>
+          <button id="hideCalendarFlowBtn" type="button" class="text-xs text-slate-500 hover:text-slate-800 font-semibold">Thu gọn ▲</button>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
+          <div class="bg-ueh-mint border border-emerald-200 rounded-xl p-3.5">
+            <div class="font-extrabold text-ueh-teal mb-1">Bước 1: Thu thập Tin tự động</div>
+            <p class="text-slate-600">Hệ thống lấy thông báo mới từ cổng <a href="https://dsa.ueh.edu.vn/" target="_blank" rel="noopener noreferrer" class="underline font-medium">DSA</a>, <a href="https://youth.ueh.edu.vn/category/ho-tro-sinh-vien-2/" target="_blank" rel="noopener noreferrer" class="underline font-medium">UEH Youth</a> và <a href="https://smartlib.ueh.edu.vn/news" target="_blank" rel="noopener noreferrer" class="underline font-medium">Smart Library</a>.</p>
+          </div>
+          <div class="bg-ueh-mint border border-emerald-200 rounded-xl p-3.5">
+            <div class="font-extrabold text-ueh-teal mb-1">Bước 2: Gắn Nhãn Tiêu chí ĐRL</div>
+            <p class="text-slate-600">Phân loại tự động theo <strong>Loại tin</strong>, <strong>Quyền lợi (+ĐRL / Giấy chứng nhận / Miễn phí)</strong> và <strong>Hạn đăng ký</strong>.</p>
+          </div>
+          <div class="bg-ueh-mint border border-emerald-200 rounded-xl p-3.5">
+            <div class="font-extrabold text-ueh-teal mb-1">Bước 3: Xác thực @st.ueh.edu.vn</div>
+            <p class="text-slate-600">Tân sinh viên bấm <strong>"Nhắc lịch Google Calendar"</strong> trên thẻ sự kiện hoặc học bổng quan tâm.</p>
+          </div>
+          <div class="bg-orange-50 border border-orange-200 rounded-xl p-3.5">
+            <div class="font-extrabold text-ueh-orange mb-1">Bước 4: Nhắc hẹn Trước 24h & 2h</div>
+            <p class="text-slate-600">Sự kiện kèm link form đăng ký được ghim thẳng vào Google Calendar điện thoại, chống trễ hạn học bổng & ĐRL.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3-DIMENSIONAL SMART FILTER BAR -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div>
+          <label for="filterType" class="block text-xs font-bold text-slate-700 mb-1">1. Lọc theo Loại tin</label>
+          <select id="filterType" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-ueh-teal bg-slate-50">
+            <option value="all">Tất cả loại tin (6)</option>
+            <option value="Học bổng">Học bổng</option>
+            <option value="Học vụ">Học vụ</option>
+            <option value="Hoạt động CLB">Hoạt động CLB / Đoàn - Hội</option>
+            <option value="Cuộc thi học thuật">Cuộc thi học thuật / Workshop</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="filterBenefit" class="block text-xs font-bold text-slate-700 mb-1">2. Lọc theo Quyền lợi</label>
+          <select id="filterBenefit" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-ueh-teal bg-slate-50">
+            <option value="all">Tất cả quyền lợi</option>
+            <option value="Có cộng điểm rèn luyện">Có cộng điểm rèn luyện (+ĐRL)</option>
+            <option value="Có giấy chứng nhận">Có giấy chứng nhận</option>
+            <option value="Miễn phí tham gia">Miễn phí tham gia</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="filterDeadline" class="block text-xs font-bold text-slate-700 mb-1">3. Lọc theo Thời hạn đăng ký</label>
+          <select id="filterDeadline" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-ueh-teal bg-slate-50">
+            <option value="all">Tất cả thời hạn</option>
+            <option value="urgent">Sắp hết hạn (Ưu tiên)</option>
+            <option value="open">Đang mở đăng ký</option>
+          </select>
+        </div>
+
+        <div class="flex flex-col justify-end">
+          <div class="flex items-center justify-between text-xs text-slate-500 mb-1">
+            <span id="feedResultCount" class="font-semibold text-ueh-teal">Đang hiển thị 6 thông báo</span>
+            <button id="resetFeedFiltersBtn" type="button" class="text-ueh-orange font-semibold hover:underline">Xóa bộ lọc</button>
+          </div>
+          <input
+            id="feedKeywordInput"
+            type="text"
+            placeholder="Tìm nhanh trong bảng tin..."
+            class="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-ueh-teal bg-slate-50"
+          />
+        </div>
+      </div>
+
+      <!-- EVENT & SCHOLARSHIP CARDS GRID -->
+      <div id="feedCardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- PHÂN KHU 4: CẨM NANG GIẢI QUYẾT SỰ CỐ NHANH ("CỨU NGUY TÂN SV")     -->
+    <!-- =================================================================== -->
+    <section id="sectionFaq" class="bg-white border-t border-slate-200 py-10 px-4 sm:px-6">
+      <div class="max-w-5xl mx-auto">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 text-red-700 border border-red-200 text-xs font-bold mb-2">
+              <span>Phân khu 4</span>
+              <span>•</span>
+              <span>Accordion FAQ — "Cứu nguy Tân sinh viên"</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">
+              Cẩm nang Giải quyết Sự cố Nhanh
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">
+              Dạng thẻ Hỏi – Đáp mở rộng (Accordion FAQ) cho các tình huống khẩn cấp thường gặp nhất của tân sinh viên K52 kèm địa chỉ & đường dẫn xử lý trực tiếp.
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="expandAllFaqBtn" type="button" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition">
+              Mở tất cả câu hỏi
+            </button>
+            <button id="collapseAllFaqBtn" type="button" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition">
+              Thu gọn tất cả
+            </button>
+          </div>
+        </div>
+
+        <!-- FAQ Accordion List -->
+        <div id="faqAccordionContainer" class="space-y-3.5"></div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- BẢNG ĐỐI CHIẾU MẪU THỬ VỚI BÁO CÁO (HỖ TRỢ THUYẾT TRÌNH & CHỤP ẢNH) -->
+    <!-- =================================================================== -->
+    <section id="reportGuideSection" class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+      <div class="bg-ueh-teal text-white rounded-3xl p-6 sm:p-8 shadow-lg">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider bg-white/15 px-3 py-1 rounded-full">Hỗ trợ Bài Báo cáo Tư duy Thiết kế</span>
+            <h2 class="text-xl sm:text-2xl font-extrabold mt-2">Bảng Đối chiếu Thực thi Mẫu thử (Low-cost Prototype & Mô phỏng Nâng cao)</h2>
+            <p class="text-xs sm:text-sm text-teal-100 mt-1">
+              Toàn bộ 4 hạng mục trong Bảng 2 của báo cáo đều đã được tích hợp trực tiếp trên trang web này để nhóm bạn chụp màn hình hoặc quay video thao tác (Screen Recording Walkthrough).
+            </p>
+          </div>
+          <button id="triggerCleanScreenshotBtn" type="button" class="self-start lg:self-auto px-4 py-2.5 rounded-xl bg-ueh-orange hover:bg-orange-600 text-white text-xs sm:text-sm font-bold shadow-sm transition">
+            📸 Bật Chế độ Chụp ảnh Sạch cho Báo cáo
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          <div class="bg-white/10 border border-white/15 rounded-2xl p-4">
+            <div class="font-extrabold text-amber-300 text-sm mb-1">1. Giao diện "UEH Freshman Hub"</div>
+            <p class="text-teal-50 mb-2">Đã dựng hoàn chỉnh 5 phân khu theo nguyên tắc 3-Click Rule, tương thích cả điện thoại và laptop.</p>
+            <button type="button" data-jump="#heroSection" class="jump-btn text-white font-bold underline">Xem & Chụp Khu vực 1 →</button>
+          </div>
+          <div class="bg-white/10 border border-white/15 rounded-2xl p-4">
+            <div class="font-extrabold text-amber-300 text-sm mb-1">2. Launchpad & Auto-suggest</div>
+            <p class="text-teal-50 mb-2">Gắn toàn bộ link thật tới Student Portal, LMS, DSA, DRS, Smart Library + Dropdown gợi ý tức thì khi gõ.</p>
+            <button type="button" data-jump="#sectionLaunchpad" class="jump-btn text-white font-bold underline">Xem & Chụp Phân khu 1 →</button>
+          </div>
+          <div class="bg-white/10 border border-white/15 rounded-2xl p-4">
+            <div class="font-extrabold text-amber-300 text-sm mb-1">3. Checklist Lộ trình K52</div>
+            <p class="text-teal-50 mb-2">Tích chọn checkbox 4 chặng, xem hướng dẫn từng bước và mô phỏng lưu tiến độ theo email @st.ueh.edu.vn.</p>
+            <button type="button" data-jump="#sectionRoadmap" class="jump-btn text-white font-bold underline">Xem & Chụp Phân khu 2 →</button>
+          </div>
+          <div class="bg-white/10 border border-white/15 rounded-2xl p-4">
+            <div class="font-extrabold text-amber-300 text-sm mb-1">4. Bảng tin ĐRL & Google Calendar</div>
+            <p class="text-teal-50 mb-2">Lọc đa chiều Loại tin / Quyền lợi / Thời hạn + Sơ đồ luồng đồng bộ nhắc lịch qua Google Calendar.</p>
+            <button type="button" data-jump="#sectionFeed" class="jump-btn text-white font-bold underline">Xem & Chụp Phân khu 3 →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 text-slate-300 text-xs py-8 px-4 sm:px-6 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <div class="font-bold text-white text-sm">UEH Freshman Hub — Nguyên mẫu Tương tác (Interactive Prototype)</div>
+        <p class="text-slate-400 mt-1">
+          Dự án môn Tư duy Thiết kế (Design Thinking) • Giải pháp cổng thông tin tập trung cho Tân sinh viên Đại học Kinh tế TP. Hồ Chí Minh (UEH).
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-3 text-slate-400">
+        <a href="https://student.ueh.edu.vn/" target="_blank" rel="noopener noreferrer" class="hover:text-white underline">Student Portal</a>
+        <a href="https://lms.ueh.edu.vn/" target="_blank" rel="noopener noreferrer" class="hover:text-white underline">UEH LMS</a>
+        <a href="https://dsa.ueh.edu.vn/" target="_blank" rel="noopener noreferrer" class="hover:text-white underline">DSA UEH</a>
+        <a href="https://drs.ueh.edu.vn/" target="_blank" rel="noopener noreferrer" class="hover:text-white underline">DRS Điểm rèn luyện</a>
+        <a href="https://youth.ueh.edu.vn/category/ho-tro-sinh-vien-2/" target="_blank" rel="noopener noreferrer" class="hover:text-white underline">UEH Youth</a>
+        <a href="https://smartlib.ueh.edu.vn/" target="_blank" rel="noopener noreferrer" class="hover:text-white underline">UEH Smart Library</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL HƯỚNG DẪN THAO TÁC / MÔ PHỎNG LUỒNG 3-CLICK / GOOGLE CALENDAR   -->
+  <!-- ===================================================================== -->
+  <div id="guideModalOverlay" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-200 overflow-hidden animate-fadeIn">
+      <div class="ueh-gradient text-white px-6 py-4 flex items-center justify-between">
+        <div>
+          <span id="modalBadge" class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/20">Hướng dẫn thao tác 3-Click</span>
+          <h3 id="modalTitle" class="text-lg font-extrabold mt-1">Hướng dẫn chi tiết</h3>
+        </div>
+        <button id="closeModalBtn" type="button" class="w-8 h-8 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center text-white font-bold">
+          ✕
+        </button>
+      </div>
+      <div id="modalBody" class="p-6 text-sm text-slate-700 space-y-4 max-h-[75vh] overflow-y-auto"></div>
+      <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2">
+        <span class="text-xs text-slate-500">Nguyên tắc 3-Click Rule: Chạm đúng thông tin trong tối đa 3 thao tác</span>
+        <div class="flex items-center gap-2">
+          <a id="modalPrimaryLink" href="https://student.ueh.edu.vn/" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-ueh-orange hover:bg-orange-600 text-white text-xs font-bold transition">
+            Mở Cổng Chính Thức ↗
+          </a>
+          <button id="modalSecondaryCloseBtn" type="button" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold transition">
+            Đóng cửa sổ
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toastBanner" class="hidden fixed bottom-5 right-5 z-50 bg-slate-900 text-white text-xs sm:text-sm font-semibold px-4 py-3 rounded-2xl shadow-xl border border-slate-700 flex items-center gap-2.5">
+    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+    <span id="toastMessage">Đã cập nhật!</span>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- APPLICATION LOGIC & GROUNDED UEH DATASET                              -->
+  <!-- ===================================================================== -->
+  <script>
+    // -----------------------------------------------------------------------
+    // 1. GROUNDED DATA: 4 LAUNCHPAD GROUPS (Phân khu 1)
+    // -----------------------------------------------------------------------
+    const LAUNCHPAD_CARDS = [
+      {
+        id: 'card-academic',
+        category: 'academic',
+        groupBadge: 'Nhóm 1 • Học tập & Khảo thí',
+        accentColor: 'teal',
+        title: 'Học tập, Lịch học & Khảo thí',
+        subtitle: 'Quản lý toàn bộ kế hoạch đào tạo, lớp học phần, giáo trình điện tử và lịch thi chính khóa.',
+        primaryUrl: 'https://student.ueh.edu.vn/',
+        primaryLabel: 'Truy cập ngay Student Portal',
+        portals: [
+          { name: 'Student Portal', url: 'https://student.ueh.edu.vn/', desc: 'Đăng ký học phần, xem điểm, lịch học' },
+          { name: 'LMS E-learning', url: 'https://lms.ueh.edu.vn/', desc: 'Học trực tuyến, nộp bài, giáo trình Pearson' },
+          { name: 'Tra cứu Lịch học / Lịch thi / Giảng đường', url: 'https://daotao.ueh.edu.vn/', desc: 'Cổng Ban Đào tạo UEH (KHĐT & TKB)' }
+        ],
+        threeTasks: [
+          'Tra cứu thời khóa biểu, lịch thi, phòng học (Cơ sở A, B, N) và đăng ký lớp học phần mỗi học kỳ tại Student Portal.',
+          'Tải slide bài giảng, nộp bài tập quá trình, làm bài kiểm tra trực tuyến (LMS / SEB) và học giáo trình Pearson trên LMS E-learning.',
+          'Theo dõi bảng điểm tích lũy, chuẩn đầu ra ngoại ngữ/tin học và đăng ký cấp bảng điểm/giấy xác nhận sinh viên.'
+        ],
+        walkthroughSteps: [
+          'Bước 1 (Click 1): Truy cập cổng Student Portal (https://student.ueh.edu.vn/) hoặc LMS E-learning (https://lms.ueh.edu.vn/) bằng tài khoản mã số sinh viên K52.',
+          'Bước 2 (Click 2): Chọn mục "Thông báo đăng ký và đóng học phí" (để đăng ký học phần) hoặc truy cập https://daotao.ueh.edu.vn/ mục "Biểu mẫu và tiện ích" → "Tra cứu KHĐT, TKB, Lịch thi, Giảng đường".',
+          'Bước 3 (Click 3): Nhập mã lớp học phần hoặc học kỳ vào bộ lọc và nhấn "Xem" để lấy dữ liệu phòng học, giờ thi chính xác.'
+        ]
+      },
+      {
+        id: 'card-life',
+        category: 'life',
+        groupBadge: 'Nhóm 2 • Đời sống & Hỗ trợ người học',
+        accentColor: 'orange',
+        title: 'Đời sống, Dịch vụ & Hỗ trợ Người học (DSA)',
+        subtitle: 'Điểm chạm một cửa giải đáp thủ tục hành chính, bảo hiểm y tế, xe buýt nhanh và ký túc xá.',
+        primaryUrl: 'https://dsa.ueh.edu.vn/',
+        primaryLabel: 'Truy cập ngay Cổng DSA',
+        portals: [
+          { name: 'Ban Chăm sóc người học - DSA', url: 'https://dsa.ueh.edu.vn/', desc: 'Cổng hỗ trợ & dịch vụ sinh viên' },
+          { name: 'Kho tri thức hỗ trợ UEH', url: 'https://hotro.ueh.edu.vn/bai-viet/dai-hoc-chinh-quy-2', desc: 'Cẩm nang quy chế & thủ tục ĐHCQ' },
+          { name: 'Cổng đăng ký Xe buýt nhanh', url: 'https://dsa.ueh.edu.vn/ueh-shuttle-bus/', desc: 'Lộ trình UEH Shuttle Bus A - B - N - KTX' },
+          { name: 'Thông tin Ký túc xá', url: 'https://dsa.ueh.edu.vn/tin-tuc/?thuoc_danh_muc_tin%5B%5D=tin-tuc-noi-bat', desc: 'KTX 135 Trần Hưng Đạo & 43-45 Nguyễn Chí Thanh' }
+        ],
+        threeTasks: [
+          'Tra cứu hướng dẫn thủ tục hành chính, xin giấy xác nhận sinh viên, bảo hiểm y tế và chính sách học bổng trên DSA & Kho tri thức.',
+          'Xem lộ trình và đăng ký vé xe buýt nhanh (UEH Shuttle Bus) di chuyển an toàn giữa Cơ sở A, Cơ sở B, Cơ sở N (Nguyễn Văn Linh) và KTX.',
+          'Cập nhật thông báo nội trú Ký túc xá (135 Trần Hưng Đạo & 43-45 Nguyễn Chí Thanh) và liên hệ tư vấn hỗ trợ người học 24/7.'
+        ],
+        walkthroughSteps: [
+          'Bước 1 (Click 1): Mở thẻ "Đời sống & Hỗ trợ người học" trên UEH Freshman Hub và chọn đúng cổng dịch vụ cần dùng (DSA, Kho tri thức hoặc UEH Shuttle Bus).',
+          'Bước 2 (Click 2): Tại Kho tri thức (https://hotro.ueh.edu.vn/bai-viet/dai-hoc-chinh-quy-2), chọn danh mục thủ tục tương ứng (Giấy xác nhận SV, Bảo hiểm y tế, Ký túc xá).',
+          'Bước 3 (Click 3): Điền biểu mẫu trực tuyến hoặc liên hệ văn phòng DSA tại Cơ sở A (A.002), Cơ sở B (B1.111), Cơ sở N (N1.201) — Hotline 028 7306 1976.'
+        ]
+      },
+      {
+        id: 'card-activity',
+        category: 'activity',
+        groupBadge: 'Nhóm 3 • Hoạt động & Điểm rèn luyện',
+        accentColor: 'teal',
+        title: 'Hoạt động Phong trào & Điểm rèn luyện',
+        subtitle: 'Theo dõi điểm rèn luyện (ĐRL) từng học kỳ và săn sự kiện, cuộc thi từ Đoàn – Hội UEH.',
+        primaryUrl: 'https://drs.ueh.edu.vn/',
+        primaryLabel: 'Truy cập ngay Hệ thống DRS',
+        portals: [
+          { name: 'Hệ thống Điểm rèn luyện DRS', url: 'https://drs.ueh.edu.vn/', desc: 'Tra cứu & theo dõi kết quả ĐRL sinh viên' },
+          { name: 'Chuyên trang Đoàn – Hội UEH Youth', url: 'https://youth.ueh.edu.vn/category/ho-tro-sinh-vien-2/', desc: 'Sự kiện, CLB, tình nguyện & Sinh viên 5 tốt' },
+          { name: 'Kết quả rèn luyện - DSA', url: 'https://dsa.ueh.edu.vn/cong-tac-sinh-vien/ket-qua-ren-luyen/', desc: 'Quy chế & thông báo rà soát ĐRL học kỳ' }
+        ],
+        threeTasks: [
+          'Đăng nhập Hệ thống DRS bằng tài khoản UEH để kiểm tra tổng điểm rèn luyện và danh sách hoạt động đã được ghi nhận.',
+          'Khám phá các chương trình tình nguyện, hội thảo kỹ năng, CLB/Đội/Nhóm và cuộc thi học thuật trên Chuyên trang Đoàn – Hội UEH Youth.',
+          'Đối chiếu quy chế cộng điểm rèn luyện (HKĐ: Tháng 1–5; HKC: Tháng 8–12) để đảm bảo đủ điều kiện xét Học bổng Khuyến khích học tập.'
+        ],
+        walkthroughSteps: [
+          'Bước 1 (Click 1): Nhấp vào "Hệ thống Điểm rèn luyện DRS" (https://drs.ueh.edu.vn/) hoặc "Chuyên trang Đoàn – Hội UEH Youth" (https://youth.ueh.edu.vn/category/ho-tro-sinh-vien-2/).',
+          'Bước 2 (Click 2): Đăng nhập an toàn bằng tài khoản UEH tại https://drs.ueh.edu.vn/Home/Login để xem chi tiết từng tiêu chí điểm rèn luyện.',
+          'Bước 3 (Click 3): Nếu cần bổ sung hoạt động, chuyển sang Bảng tin Sự kiện (Phân khu 3) để lọc các sự kiện "Có cộng điểm rèn luyện" và đăng ký ngay.'
+        ]
+      },
+      {
+        id: 'card-library',
+        category: 'library',
+        groupBadge: 'Nhóm 4 • Thư viện & Nghiên cứu',
+        accentColor: 'orange',
+        title: 'Thư viện Thông minh & Cơ sở Dữ liệu Học thuật',
+        subtitle: 'Khai thác hơn 400.000 tài liệu số, đặt phòng học nhóm và truy cập cơ sở dữ liệu quốc tế.',
+        primaryUrl: 'https://smartlib.ueh.edu.vn/',
+        primaryLabel: 'Truy cập ngay Smart Library',
+        portals: [
+          { name: 'Thư viện thông minh UEH Smart Library', url: 'https://smartlib.ueh.edu.vn/', desc: 'Mượn sách, đặt phòng học nhóm, OneSearch' },
+          { name: 'Cơ sở dữ liệu học thuật', url: 'https://smartlib.ueh.edu.vn/search-book/database', desc: 'ScienceDirect, EBSCO, Harvard eBooks, Statista' },
+          { name: 'UEH Data Space', url: 'https://smartlib.ueh.edu.vn/data-space/', desc: 'LSEG Workspace & FiinPro-X cho sinh viên' }
+        ],
+        threeTasks: [
+          'Đăng nhập cổng UEH Smart Library bằng email @st.ueh.edu.vn để tra cứu sách, gia hạn tài liệu mượn và đặt chỗ phòng học nhóm.',
+          'Truy cập miễn phí các cơ sở dữ liệu học thuật uy tín thế giới (ScienceDirect, EBSCO, Statista, LSEG Workspace, FiinPro-X Platform).',
+          'Sử dụng dịch vụ hỗ trợ nghiên cứu học thuật, hướng dẫn trích dẫn chuẩn quốc tế và kiểm tra liêm chính học thuật (Turnitin).'
+        ],
+        walkthroughSteps: [
+          'Bước 1 (Click 1): Mở cổng UEH Smart Library (https://smartlib.ueh.edu.vn/) và nhấp nút Login ở góc phải màn hình.',
+          'Bước 2 (Click 2): Chọn nhóm "UEH Student" và đăng nhập bằng tài khoản email sinh viên (@st.ueh.edu.vn).',
+          'Bước 3 (Click 3): Vào mục "My Library Account" để đặt phòng học nhóm / gia hạn sách, hoặc mở https://smartlib.ueh.edu.vn/search-book/database để tra cứu dữ liệu nghiên cứu.'
+        ]
+      }
+    ];
+
+    // -----------------------------------------------------------------------
+    // 2. GROUNDED DATA: QUICK TAGS & AUTO-SUGGEST SEARCH INDEX (Khu vực 1)
+    // -----------------------------------------------------------------------
+    const SEARCH_INDEX = [
+      {
+        tag: '#ĐăngKýHọcPhần',
+        keywords: 'đăng ký học phần dkhp môn học thời khóa biểu tkb lịch học xóa học phần student portal',
+        title: 'Quy trình Đăng ký Học phần & Tra cứu Thời khóa biểu',
+        category: 'Học tập & Khảo thí',
+        clicks: '2 Click',
+        desc: 'Xem kế hoạch ĐKHP tại Kho tri thức UEH, tra cứu TKB dự kiến tại Ban Đào tạo (daotao.ueh.edu.vn) và đăng ký môn học tại Student Portal.',
+        url: 'https://hotro.ueh.edu.vn/bai-viet/dang-ky-hoc-phan-356',
+        targetSection: '#sectionLaunchpad',
+        cardId: 'card-academic'
+      },
+      {
+        tag: '#ĐiểmRènLuyện',
+        keywords: 'điểm rèn luyện drl drs khiếu nại sót điểm rèn luyện kết quả rèn luyện dsa',
+        title: 'Tra cứu & Rà soát Điểm Rèn luyện trên Hệ thống DRS',
+        category: 'Hoạt động & ĐRL',
+        clicks: '2 Click',
+        desc: 'Đăng nhập drs.ueh.edu.vn bằng tài khoản UEH để xem điểm rèn luyện học kỳ đầu (Tháng 1–5) và học kỳ cuối (Tháng 8–12).',
+        url: 'https://drs.ueh.edu.vn/',
+        targetSection: '#sectionLaunchpad',
+        cardId: 'card-activity'
+      },
+      {
+        tag: '#HọcBổngK52',
+        keywords: 'học bổng k52 khuyến khích học tập kkht học bổng tuyển sinh học bổng vươn lên doanh nghiệp dsa',
+        title: 'Cổng Thông tin Học bổng K52 & Học bổng Khuyến khích Học tập',
+        category: 'Học bổng & Hỗ trợ',
+        clicks: '2 Click',
+        desc: 'Theo dõi Học bổng Tuyển sinh K52, Học bổng Khuyến khích học tập và Học bổng Vươn lên tại chuyên trang Ban Chăm sóc người học (DSA).',
+        url: 'https://dsa.ueh.edu.vn/hoc-bong/hoc-bong-khuyen-khich-hoc-tap/',
+        targetSection: '#sectionFeed',
+        cardId: 'card-life'
+      },
+      {
+        tag: '#MượnSáchThưViện',
+        keywords: 'mượn sách thư viện smart library đặt phòng học nhóm cơ sở dữ liệu statista lseg sciencedirect',
+        title: 'Mượn sách, Đặt phòng học nhóm & CSDL UEH Smart Library',
+        category: 'Thư viện & Nghiên cứu',
+        clicks: '2 Click',
+        desc: 'Sử dụng thẻ sinh viên và email @st.ueh.edu.vn tại smartlib.ueh.edu.vn để mượn sách in, đặt phòng học và đọc hơn 400.000 tài liệu số.',
+        url: 'https://smartlib.ueh.edu.vn/post/students',
+        targetSection: '#sectionLaunchpad',
+        cardId: 'card-library'
+      },
+      {
+        tag: '#XeBuýtUEH',
+        keywords: 'xe buýt ueh shuttle bus ueh flex di chuyển cơ sở n nguyễn văn linh ký túc xá',
+        title: 'Lộ trình & Đăng ký Vé Xe buýt nhanh (UEH Shuttle Bus)',
+        category: 'Đời sống Sinh viên',
+        clicks: '2 Click',
+        desc: 'Tra cứu các tuyến xe buýt chuyên biệt kết nối Cơ sở A, Cơ sở B, KTX (135 Trần Hưng Đạo, 43-45 Nguyễn Chí Thanh) và Cơ sở N (Nguyễn Văn Linh).',
+        url: 'https://dsa.ueh.edu.vn/ueh-shuttle-bus/',
+        targetSection: '#sectionLaunchpad',
+        cardId: 'card-life'
+      },
+      {
+        tag: '#XinGiấyXácNhận',
+        keywords: 'xin giấy xác nhận sinh viên nghĩa vụ quân sự vay vốn bảng điểm dịch vụ hỗ trợ dsa portal',
+        title: 'Cấp Giấy xác nhận Sinh viên & Dịch vụ Giao dịch Điện tử',
+        category: 'Thủ tục Hành chính',
+        clicks: '2 Click',
+        desc: 'Đăng ký cấp giấy chứng nhận sinh viên, giấy xác nhận tạm hoãn nghĩa vụ quân sự, bảng điểm và giấy giới thiệu thực tập qua Portal & DSA.',
+        url: 'https://student.ueh.edu.vn/',
+        targetSection: '#sectionLaunchpad',
+        cardId: 'card-life'
+      },
+      {
+        tag: '#QuênMậtKhẩu',
+        keywords: 'quên mật khẩu student portal email st.ueh.edu.vn ms teams khôi phục tài khoản matkhau',
+        title: 'Khôi phục Mật khẩu Tổng hợp (Portal, Email @st.ueh.edu.vn, MS Teams)',
+        category: 'Cứu nguy Tân sinh viên',
+        clicks: '2 Click',
+        desc: 'Truy cập trang quản lý mật khẩu tập trung matkhau.ueh.edu.vn hoặc xem hướng dẫn xử lý sự cố tại Cẩm nang FAQ.',
+        url: 'https://matkhau.ueh.edu.vn/',
+        targetSection: '#sectionFaq',
+        cardId: 'faq-1'
+      }
+    ];
+
+    // -----------------------------------------------------------------------
+    // 3. GROUNDED DATA: 4 ROADMAP STAGES (Phân khu 2)
+    // -----------------------------------------------------------------------
+    const ROADMAP_STAGES = [
+      {
+        stageId: 'stage-1',
+        stageNumber: 'Chặng 1',
+        title: 'Tuần đầu nhập học',
+        timeframe: 'Tháng 9/2026 • Làm quen hệ sinh thái số UEH',
+        items: [
+          {
+            id: 'rm-1-1',
+            text: 'Kích hoạt email sinh viên @st.ueh.edu.vn và kiểm tra thư chào mừng Khóa K52.',
+            url: 'https://dsa.ueh.edu.vn/tin-tuc/welcome-to-ueh-k52/',
+            linkLabel: 'Hướng dẫn K52 (DSA)',
+            guide: 'Kiểm tra thông tin tài khoản ban đầu do trường gửi khi nhập học, đăng nhập Gmail với đuôi @st.ueh.edu.vn để nhận toàn bộ thông báo học vụ, học bổng và link lớp học.'
+          },
+          {
+            id: 'rm-1-2',
+            text: 'Đổi mật khẩu mặc định trên Student Portal và lưu trang khôi phục matkhau.ueh.edu.vn.',
+            url: 'https://student.ueh.edu.vn/login',
+            linkLabel: 'Đăng nhập Portal',
+            guide: 'Truy cập https://student.ueh.edu.vn/login để đổi mật khẩu bảo mật. Nếu quên mật khẩu, sử dụng cổng khôi phục tập trung tại https://matkhau.ueh.edu.vn/.'
+          },
+          {
+            id: 'rm-1-3',
+            text: 'Tham gia đầy đủ Tuần Sinh hoạt công dân đầu khóa và hoàn thành bài thu hoạch.',
+            url: 'https://lms.ueh.edu.vn/',
+            linkLabel: 'Vào UEH LMS',
+            guide: 'Theo dõi lịch học Tuần Sinh hoạt công dân trên Portal/DSA và hoàn thành bài kiểm tra thu hoạch trên hệ thống https://lms.ueh.edu.vn/ để được tính điểm rèn luyện.'
+          },
+          {
+            id: 'rm-1-4',
+            text: 'Cập nhật thông tin Bảo hiểm y tế & Bảo hiểm tai nạn sinh viên theo hướng dẫn DSA.',
+            url: 'https://dsa.ueh.edu.vn/tin-tuc/?thuoc_danh_muc_tin%5B%5D=tin-tuc-noi-bat',
+            linkLabel: 'Thông báo BHYT (DSA)',
+            guide: 'Kê khai mã số BHXH/BHYT đúng hạn theo thông báo của Ban Chăm sóc người học (DSA) để đảm bảo quyền lợi khám chữa bệnh ban đầu tại TP.HCM.'
+          }
+        ]
+      },
+      {
+        stageId: 'stage-2',
+        stageNumber: 'Chặng 2',
+        title: 'Làm quen giảng đường',
+        timeframe: 'Tháng 9 – Tháng 10/2026 • Tối ưu việc học & di chuyển',
+        items: [
+          {
+            id: 'rm-2-1',
+            text: 'Đăng nhập LMS kiểm tra danh sách môn học, đề cương và tài nguyên Pearson Digital Solutions.',
+            url: 'https://lms.ueh.edu.vn/',
+            linkLabel: 'Mở LMS E-learning',
+            guide: 'Dùng chung tài khoản Student Portal để đăng nhập https://lms.ueh.edu.vn/, kiểm tra đủ các lớp học phần trong học kỳ và kích hoạt giáo trình điện tử Pearson (MyLab, Revel, VitalSource).'
+          },
+          {
+            id: 'rm-2-2',
+            text: 'Đăng nhập cổng UEH Smart Library và cài đặt tiện ích mượn sách, đặt phòng học nhóm.',
+            url: 'https://smartlib.ueh.edu.vn/post/students',
+            linkLabel: 'Dịch vụ Thư viện SV',
+            guide: 'Truy cập https://smartlib.ueh.edu.vn/post/students, chọn đăng nhập bằng tài khoản @st.ueh.edu.vn để đặt phòng thảo luận nhóm tại Cơ sở B (279 Nguyễn Tri Phương) hoặc Cơ sở N.'
+          },
+          {
+            id: 'rm-2-3',
+            text: 'Tìm hiểu sơ đồ phòng học tại các Cơ sở A, B, N và lộ trình xe buýt nhanh UEH Shuttle Bus.',
+            url: 'https://dsa.ueh.edu.vn/ueh-shuttle-bus/',
+            linkLabel: 'Lộ trình Shuttle Bus',
+            guide: 'Ghi nhớ ký hiệu tòa nhà: Cơ sở A (59C Nguyễn Đình Chiểu), Cơ sở B (B1, B2 tại 279 Nguyễn Tri Phương), Cơ sở N (Khu chức năng số 15, Nguyễn Văn Linh) và đặt vé UEH Shuttle Bus.'
+          }
+        ]
+      },
+      {
+        stageId: 'stage-3',
+        stageNumber: 'Chặng 3',
+        title: 'Tích lũy rèn luyện & Học bổng',
+        timeframe: 'Tháng 10 – Tháng 11/2026 • Săn ĐRL & Học bổng K52',
+        items: [
+          {
+            id: 'rm-3-1',
+            text: 'Tìm hiểu quy chế Điểm rèn luyện trên Hệ thống DRS và khung đánh giá 2 kỳ/năm.',
+            url: 'https://drs.ueh.edu.vn/',
+            linkLabel: 'Mở Hệ thống DRS',
+            guide: 'Truy cập https://drs.ueh.edu.vn/ và chuyên mục https://dsa.ueh.edu.vn/cong-tac-sinh-vien/ket-qua-ren-luyen/ để nắm rõ các mặt đánh giá ĐRL ảnh hưởng trực tiếp tới xét học bổng.'
+          },
+          {
+            id: 'rm-3-2',
+            text: 'Tham gia tối thiểu 2–3 hoạt động học thuật / tình nguyện trên Đoàn – Hội UEH Youth.',
+            url: 'https://youth.ueh.edu.vn/category/tin-tuc/tinh-nguyen/',
+            linkLabel: 'Hoạt động UEH Youth',
+            guide: 'Theo dõi các hội thảo, cuộc thi học thuật trực tuyến và hoạt động tình nguyện trên https://youth.ueh.edu.vn/ để tích lũy minh chứng và điểm rèn luyện.'
+          },
+          {
+            id: 'rm-3-3',
+            text: 'Theo dõi thông báo học bổng tại Chuyên mục K52 - DSA và Học bổng Khuyến khích học tập.',
+            url: 'https://dsa.ueh.edu.vn/hoc-bong/hoc-bong-khuyen-khich-hoc-tap/',
+            linkLabel: 'Chuyên trang Học bổng DSA',
+            guide: 'Kiểm tra kết quả Học bổng Tuyển sinh K52, điều kiện tín chỉ tối thiểu của Học bổng Khuyến khích học tập và các gói Học bổng Doanh nghiệp / Vươn lên trên https://dsa.ueh.edu.vn/hoc-bong/.'
+          }
+        ]
+      },
+      {
+        stageId: 'stage-4',
+        stageNumber: 'Chặng 4',
+        title: 'Chuẩn bị cuối kỳ & Đăng ký học phần',
+        timeframe: 'Tháng 11 – Tháng 12/2026 • Về đích học kỳ đầu tiên',
+        items: [
+          {
+            id: 'rm-4-1',
+            text: 'Xem hướng dẫn Đăng ký học phần trên Kho tri thức và tra cứu TKB dự kiến học kỳ mới.',
+            url: 'https://hotro.ueh.edu.vn/bai-viet/dang-ky-hoc-phan-356',
+            linkLabel: 'Cẩm nang ĐKHP UEH',
+            guide: 'Đọc kỹ quy trình 3 bước tại https://hotro.ueh.edu.vn/bai-viet/dang-ky-hoc-phan-356 và xem trước danh sách lớp học phần mở tại https://daotao.ueh.edu.vn/.'
+          },
+          {
+            id: 'rm-4-2',
+            text: 'Kiểm tra lịch thi kết thúc học phần và quy định phòng thi (SEB / LMS Key) trên Portal & LMS.',
+            url: 'https://student.ueh.edu.vn/',
+            linkLabel: 'Kiểm tra Lịch thi',
+            guide: 'Đăng nhập https://student.ueh.edu.vn/ để xem lịch thi, phòng thi cụ thể và kiểm tra cài đặt trình duyệt Safe Exam Browser (SEB) theo hướng dẫn trên https://lms.ueh.edu.vn/.'
+          },
+          {
+            id: 'rm-4-3',
+            text: 'Rà soát bảng điểm rèn luyện tổng kết học kỳ trên DRS trước thời hạn khóa sổ.',
+            url: 'https://drs.ueh.edu.vn/',
+            linkLabel: 'Rà soát ĐRL (DRS)',
+            guide: 'Kiểm tra toàn bộ hoạt động đã tham gia trong học kỳ trên https://drs.ueh.edu.vn/. Nếu thiếu hoạt động, gửi phản hồi ngay trong thời gian rà soát của DSA.'
+          }
+        ]
+      }
+    ];
+
+    // -----------------------------------------------------------------------
+    // 4. GROUNDED DATA: SMART EVENT & SCHOLARSHIP FEED (Phân khu 3)
+    // -----------------------------------------------------------------------
+    const FEED_ITEMS = [
+      {
+        id: 'feed-1',
+        title: 'Thông báo kế hoạch xét Học bổng Khuyến khích học tập & Học bổng Tuyển sinh Khóa 52 – ĐHCQ',
+        source: 'Ban Chăm sóc người học (DSA)',
+        sourceUrl: 'https://dsa.ueh.edu.vn/tin-tuc/thong-bao-ket-qua-hoc-bong-tuyen-sinh-khoa-52-dhcq/',
+        type: 'Học bổng',
+        benefits: ['Miễn phí tham gia'],
+        drlBadge: 'Học bổng Xuất sắc / Toàn phần / Bán phần',
+        deadlineStatus: 'urgent',
+        deadlineLabel: 'Đang triển khai học kỳ cuối 2026',
+        dateStr: '20261125T090000/20261125T110000',
+        summary: 'Quy định về suất Học bổng Xuất sắc (27.000.000đ), Toàn phần (18.000.000đ), Bán phần (9.000.000đ) và nguyên tắc cấn trừ/chuyển khoản học bổng cho tân sinh viên K52.'
+      },
+      {
+        id: 'feed-2',
+        title: 'Chương trình Chào đón Tân sinh viên K52 & Chuỗi Hoạt động Phong trào Đoàn – Hội UEH',
+        source: 'Đoàn – Hội UEH Youth',
+        sourceUrl: 'https://youth.ueh.edu.vn/tin-tuc/phong-trao/doan-hoi-vien-khoa-hoc-chinh-tri-xa-hoi-to-chuc-chuong-trinh-chao-don-tan-sinh-vien-k52-trong-khong-khi-am-ap-va-day-cam-hung/',
+        type: 'Hoạt động CLB',
+        benefits: ['Có cộng điểm rèn luyện', 'Miễn phí tham gia'],
+        drlBadge: '+Điểm rèn luyện Mặt 3 (Hoạt động CT-XH)',
+        deadlineStatus: 'open',
+        deadlineLabel: 'Mở đăng ký trong học kỳ',
+        dateStr: '20261120T140000/20261120T170000',
+        summary: 'Giao lưu kết nối tân sinh viên Khóa 52, giới thiệu hệ thống CLB/Đội/Nhóm trực thuộc Đoàn Thanh niên – Hội Sinh viên UEH và hướng dẫn danh hiệu Sinh viên 5 tốt.'
+      },
+      {
+        id: 'feed-3',
+        title: 'Talkshow Hội nhập "LESYN" 2026: Trang bị Kiến thức & Kỹ năng Cần thiết cho Sinh viên',
+        source: 'UEH Youth',
+        sourceUrl: 'https://youth.ueh.edu.vn/page/2/?attachment_id',
+        type: 'Cuộc thi học thuật',
+        benefits: ['Có cộng điểm rèn luyện', 'Có giấy chứng nhận', 'Miễn phí tham gia'],
+        drlBadge: '+Điểm rèn luyện Mặt 1 (Học tập & NCKH)',
+        deadlineStatus: 'open',
+        deadlineLabel: 'Đang mở đăng ký trực tuyến',
+        dateStr: '20261122T083000/20261122T113000',
+        summary: 'Talkshow định hướng phương pháp học đại học, kỹ năng nghiên cứu và thích nghi môi trường học thuật cho tân sinh viên tại UEH.'
+      },
+      {
+        id: 'feed-4',
+        title: 'Phiên Khám phá Dữ liệu Nghiên cứu: "Beyond the Obvious: A Research Discovery Session with Statista"',
+        source: 'UEH Smart Library',
+        sourceUrl: 'https://smartlib.ueh.edu.vn/news',
+        type: 'Cuộc thi học thuật',
+        benefits: ['Có cộng điểm rèn luyện', 'Có giấy chứng nhận', 'Miễn phí tham gia'],
+        drlBadge: '+Kỹ năng Khai thác CSDL Quốc tế',
+        deadlineStatus: 'urgent',
+        deadlineLabel: 'Sự kiện Tháng 11/2026 (Sắp diễn ra)',
+        dateStr: '20261118T090000/20261118T113000',
+        summary: 'Hướng dẫn thực hành khai thác cơ sở dữ liệu Statista, LSEG Workspace và FiinPro-X phục vụ bài tiểu luận, báo cáo môn học và nghiên cứu khoa học.'
+      },
+      {
+        id: 'feed-5',
+        title: 'Thông báo Chương trình Học bổng Doanh nghiệp & Học bổng Vươn Lên UEH năm 2026',
+        source: 'Ban Chăm sóc người học (DSA)',
+        sourceUrl: 'https://dsa.ueh.edu.vn/hoc-bong/hoc-bong-doanh-nghiep/',
+        type: 'Học bổng',
+        benefits: ['Có giấy chứng nhận', 'Miễn phí tham gia'],
+        drlBadge: 'Hỗ trợ Tài chính & Học bổng Tài trợ',
+        deadlineStatus: 'urgent',
+        deadlineLabel: 'Sắp hết hạn nhận hồ sơ',
+        dateStr: '20261128T080000/20261128T170000',
+        summary: 'Tổng hợp các chương trình học bổng tài trợ từ doanh nghiệp đối tác (Mitsubishi UFJ Foundation, Panasonic, Đinh Thiện Lý) và Học bổng Vươn Lên dành cho sinh viên nỗ lực vượt khó.'
+      },
+      {
+        id: 'feed-6',
+        title: 'Kế hoạch Đăng ký Học phần & Triển khai Dịch vụ Di chuyển Xanh UEH Shuttle Bus / UEHählten',
+        source: 'DSA & Kho tri thức UEH',
+        sourceUrl: 'https://hotro.ueh.edu.vn/bai-viet/dang-ky-hoc-phan-356',
+        type: 'Học vụ',
+        benefits: ['Miễn phí tham gia'],
+        drlBadge: 'Thông báo Học vụ Trọng tâm',
+        deadlineStatus: 'open',
+        deadlineLabel: 'Áp dụng toàn học kỳ cuối 2026',
+        dateStr: '20261201T080000/20261201T110000',
+        summary: 'Hướng dẫn chi tiết quy trình tra cứu thời khóa biểu dự kiến, đăng ký lớp học phần trên Student Portal và đặt lịch di chuyển bằng UEH Shuttle Bus.'
+      }
+    ];
+
+    // -----------------------------------------------------------------------
+    // 5. GROUNDED DATA: ACCORDION FAQ ("Cứu nguy Tân sinh viên" - Phân khu 4)
+    // -----------------------------------------------------------------------
+    const FAQ_ITEMS = [
+      {
+        id: 'faq-1',
+        question: '1. "Quên mật khẩu Student Portal phải làm sao?"',
+        badge: 'Khẩn cấp • Tài khoản UEH',
+        answerSteps: [
+          'Cách 1 (Tự khôi phục trực tuyến trong 2 phút): Truy cập ngay Trang quản lý và khôi phục mật khẩu tổng hợp của UEH tại https://matkhau.ueh.edu.vn/. Hệ thống này hỗ trợ cấp lại mật khẩu cho cả 3 tài khoản: Student Portal (student.ueh.edu.vn), Email sinh viên (@st.ueh.edu.vn) và tài khoản MS Teams.',
+          'Cách 2 (Hỗ trợ trực tiếp): Nếu không thể tự khôi phục qua email cá nhân, liên hệ ngay Ban Đào tạo hoặc Ban Chăm sóc người học (DSA) qua hotline 028 7306 1976 hoặc email dsa@ueh.edu.vn kèm thông tin Mã số sinh viên và CCCD.'
+        ],
+        links: [
+          { label: 'Mở trang Khôi phục mật khẩu (matkhau.ueh.edu.vn)', url: 'https://matkhau.ueh.edu.vn/' },
+          { label: 'Đăng nhập Student Portal', url: 'https://student.ueh.edu.vn/login' }
+        ]
+      },
+      {
+        id: 'faq-2',
+        question: '2. "Bị sót điểm rèn luyện sau khi tham gia sự kiện thì khiếu nại ở đâu?"',
+        badge: 'Quyền lợi • Điểm rèn luyện DRS',
+        answerSteps: [
+          'Bước 1: Đăng nhập vào Hệ thống Điểm rèn luyện UEH tại https://drs.ueh.edu.vn/ để kiểm tra danh sách chi tiết các hoạt động đã được ghi nhận trong học kỳ (Học kỳ đầu: Tháng 1–5; Học kỳ cuối: Tháng 8–12).',
+          'Bước 2: Theo dõi thông báo "Kiểm tra và cập nhật kết quả rèn luyện" tại chuyên mục Kết quả rèn luyện của DSA (https://dsa.ueh.edu.vn/cong-tac-sinh-vien/ket-qua-ren-luyen/).',
+          'Bước 3: Chuẩn bị minh chứng tham gia (ảnh chụp màn hình form điểm danh, email xác nhận hoặc giấy chứng nhận) và liên hệ trực tiếp Ban Tổ chức chương trình (CLB/Khoa/Viện) hoặc gửi phản hồi về Ban Chăm sóc người học qua email dsa@ueh.edu.vn / Đoàn - Hội qua youth@ueh.edu.vn trong thời gian phúc khảo.'
+        ],
+        links: [
+          { label: 'Kiểm tra trên Hệ thống DRS', url: 'https://drs.ueh.edu.vn/' },
+          { label: 'Chuyên mục Kết quả rèn luyện (DSA)', url: 'https://dsa.ueh.edu.vn/cong-tac-sinh-vien/ket-qua-ren-luyen/' }
+        ]
+      },
+      {
+        id: 'faq-3',
+        question: '3. "Cần tư vấn tâm lý hoặc hỗ trợ khó khăn đột xuất thì liên hệ phòng nào?"',
+        badge: 'Hỗ trợ 24/7 • Chăm sóc người học',
+        answerSteps: [
+          'Liên hệ trực tiếp Ban Chăm sóc người học (DSA) — đơn vị chuyên trách tư vấn tâm lý, hỗ trợ hòa nhập đa văn hóa, giải quyết khó khăn đột xuất, học bổng hỗ trợ đột xuất và công tác y tế cho sinh viên UEH.',
+          'Địa chỉ văn phòng trực tiếp tại 3 cơ sở: Cơ sở A (Phòng A.002 – 59C Nguyễn Đình Chiểu, Phường Xuân Hòa), Cơ sở B (Phòng B1.111 – 279 Nguyễn Tri Phương, Phường Diên Hồng), Cơ sở N (Phòng N1.201 – Khu chức năng số 15, Đô thị mới Nam Thành phố, Nguyễn Văn Linh, Xã Bình Hưng).',
+          'Kênh liên hệ nhanh: Tổng đài UEH 028 7306 1976, Email dsa@ueh.edu.vn, hoặc liên hệ Văn phòng Đoàn Thanh niên – Hội Sinh viên UEH tại Phòng B1-1106 (279 Nguyễn Tri Phương) và các chương trình chăm sóc sức khỏe tinh thần trên UEH Youth.'
+        ],
+        links: [
+          { label: 'Trang Liên hệ Ban Chăm sóc người học (DSA)', url: 'https://dsa.ueh.edu.vn/lien-he/' },
+          { label: 'Chuyên mục Hỗ trợ Sinh viên (UEH Youth)', url: 'https://youth.ueh.edu.vn/category/ho-tro-sinh-vien-2/' }
+        ]
+      },
+      {
+        id: 'faq-4',
+        question: '4. "Đã qua thời gian đăng ký học phần hoặc muốn xóa/đăng ký bổ sung môn học thì xử lý thế nào?"',
+        badge: 'Học vụ • Đăng ký học phần',
+        answerSteps: [
+          'Trong thời gian đăng ký học phần: Nếu muốn xóa môn đã chọn, đăng nhập https://student.ueh.edu.vn/ và nhấn nút "Xóa đăng ký" tại cột tương ứng trong "Danh sách học phần đăng ký thành công".',
+          'Sau thời gian đăng ký học phần chính thức: Truy cập Kho tri thức UEH (https://hotro.ueh.edu.vn/bai-viet/dang-ky-hoc-phan-356) hoặc (https://hotro.ueh.edu.vn/bai-viet/dang-ky-hoc-phan-30) để điền biểu mẫu "Giấy đề nghị đăng ký học phần" bổ sung theo lịch của Ban Đào tạo.'
+        ],
+        links: [
+          { label: 'Hướng dẫn Đăng ký học phần (Kho tri thức UEH)', url: 'https://hotro.ueh.edu.vn/bai-viet/dang-ky-hoc-phan-356' },
+          { label: 'Tra cứu TKB & Giảng đường (Ban Đào tạo)', url: 'https://daotao.ueh.edu.vn/' }
+        ]
+      },
+      {
+        id: 'faq-5',
+        question: '5. "Làm sao để mượn sách, đặt phòng học nhóm và truy cập cơ sở dữ liệu học thuật tại thư viện?"',
+        badge: 'Học thuật • UEH Smart Library',
+        answerSteps: [
+          'Truy cập cổng Thư viện thông minh tại https://smartlib.ueh.edu.vn/, nhấp nút Login ở góc trên bên phải, chọn "UEH Student" và đăng nhập bằng email @st.ueh.edu.vn.',
+          'Vào mục "My Library Account" để đặt phòng học nhóm (Room Booking), gia hạn sách đang mượn hoặc đặt giữ sách in. Sử dụng công cụ OneSearch hoặc truy cập https://smartlib.ueh.edu.vn/search-book/database để đọc toàn văn tài liệu từ ScienceDirect, EBSCO, Harvard eBooks, Statista và LSEG Workspace.'
+        ],
+        links: [
+          { label: 'Hướng dẫn Dịch vụ Sinh viên (Smart Library)', url: 'https://smartlib.ueh.edu.vn/post/students' },
+          { label: 'Danh mục Cơ sở dữ liệu Học thuật UEH', url: 'https://smartlib.ueh.edu.vn/search-book/database' }
+        ]
+      }
+    ];
+
+    // -----------------------------------------------------------------------
+    // 6. APPLICATION STATE & SAFE LOCALSTORAGE HELPERS
+    // -----------------------------------------------------------------------
+    const STORAGE_KEY_ROADMAP = 'ueh_freshman_hub_roadmap_v1';
+    let state = {
+      clickCount: 0,
+      isAccountSynced: true,
+      cleanScreenshotMode: false,
+      launchpadFilter: 'all',
+      activeRoadmapStage: 'all',
+      checkedItems: {
+        'rm-1-1': true,
+        'rm-1-2': true,
+        'rm-1-3': false,
+        'rm-1-4': false,
+        'rm-2-1': true,
+        'rm-2-2': false,
+        'rm-2-3': false,
+        'rm-3-1': false,
+        'rm-3-2': false,
+        'rm-3-3': false,
+        'rm-4-1': false,
+        'rm-4-2': false,
+        'rm-4-3': false
+      },
+      openFaqs: {
+        'faq-1': true,
+        'faq-2': true,
+        'faq-3': false,
+        'faq-4': false,
+        'faq-5': false
+      }
+    };
+
+    function loadSavedState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY_ROADMAP);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed && typeof parsed === 'object') {
+            state.checkedItems = Object.assign({}, state.checkedItems, parsed);
+          }
+        }
+      } catch (e) {
+        // Ignore storage errors in sandboxed iframe
+      }
+    }
+
+    function saveRoadmapState() {
+      try {
+        localStorage.setItem(STORAGE_KEY_ROADMAP, JSON.stringify(state.checkedItems));
+      } catch (e) {
+        // Ignore storage errors in sandboxed iframe
+      }
+    }
+
+    function recordUserClick(actionLabel) {
+      state.clickCount = Math.min(3, state.clickCount + 1);
+      const badge = document.getElementById('clickCounterBadge');
+      if (badge) {
+        badge.textContent = state.clickCount + ' / 3 Click';
+        if (state.clickCount <= 3) {
+          badge.className = 'font-bold text-emerald-400';
+        }
+      }
+      if (actionLabel) {
+        showToast('Thao tác ' + state.clickCount + '/3: ' + actionLabel);
+      }
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const banner = document.getElementById('toastBanner');
+      const text = document.getElementById('toastMessage');
+      if (!banner || !text) return;
+      text.textContent = msg;
+      banner.classList.remove('hidden');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(function() {
+        banner.classList.add('hidden');
+      }, 2800);
+    }
+
+    // -----------------------------------------------------------------------
+    // 7. RENDER FUNCTIONS
+    // -----------------------------------------------------------------------
+
+    // 7.1 Render Launchpad Cards (Phân khu 1)
+    function renderLaunchpad() {
+      const container = document.getElementById('launchpadGrid');
+      if (!container) return;
+
+      const filtered = LAUNCHPAD_CARDS.filter(function(card) {
+        return state.launchpadFilter === 'all' || card.category === state.launchpadFilter;
+      });
+
+      container.innerHTML = filtered.map(function(card) {
+        const isTeal = card.accentColor === 'teal';
+        const headerBg = isTeal ? 'bg-ueh-teal text-white' : 'bg-ueh-orange text-white';
+        const borderClass = isTeal ? 'border-teal-700/20' : 'border-orange-500/25';
+        const badgeBg = isTeal ? 'bg-white/15 text-teal-50' : 'bg-white/20 text-white';
+        const primaryBtnClass = isTeal
+          ? 'bg-ueh-teal hover:bg-ueh-tealDark text-white'
+          : 'bg-ueh-orange hover:bg-orange-600 text-white';
+
+        const portalsHtml = card.portals.map(function(p) {
+          return (
+            '<a href="' + p.url + '" target="_blank" rel="noopener noreferrer" data-track-click="Mở cổng ' + p.name + '" ' +
+            'class="group flex items-center justify-between gap-2 p-2.5 rounded-xl bg-slate-50 hover:bg-ueh-tealLight border border-slate-200 hover:border-ueh-teal transition text-xs">' +
+              '<div>' +
+                '<span class="font-bold text-ueh-teal group-hover:underline">' + p.name + ' ↗</span>' +
+                '<p class="text-[11px] text-slate-500 mt-0.5">' + p.desc + '</p>' +
+              '</div>' +
+              '<span class="px-2 py-0.5 rounded-md bg-white text-slate-600 font-semibold text-[11px] border border-slate-200 shrink-0">Mở trang</span>' +
+            '</a>'
+          );
+        }).join('');
+
+        const tasksHtml = card.threeTasks.map(function(t, idx) {
+          return (
+            '<li class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700">' +
+              '<span class="w-5 h-5 rounded-full ' + (isTeal ? 'bg-ueh-tealLight text-ueh-teal' : 'bg-ueh-orangeLight text-ueh-orange') + ' font-extrabold text-xs flex items-center justify-center shrink-0 mt-0.5">' + (idx + 1) + '</span>' +
+              '<span>' + t + '</span>' +
+            '</li>'
+          );
+        }).join('');
+
+        return (
+          '<article id="' + card.id + '" class="bg-white rounded-3xl border ' + borderClass + ' shadow-sm overflow-hidden flex flex-col justify-between card-hover">' +
+            '<div>' +
+              '<div class="' + headerBg + ' px-5 py-4">' +
+                '<div class="flex items-center justify-between gap-2 mb-1.5">' +
+                  '<span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ' + badgeBg + '">' + card.groupBadge + '</span>' +
+                  '<span class="text-[11px] font-semibold bg-black/20 px-2.5 py-0.5 rounded-full">Chuẩn 3-Click</span>' +
+                '</div>' +
+                '<h3 class="text-lg sm:text-xl font-extrabold">' + card.title + '</h3>' +
+                '<p class="text-xs text-white/90 mt-1">' + card.subtitle + '</p>' +
+              '</div>' +
+
+              '<div class="p-5 space-y-4">' +
+                '<div>' +
+                  '<div class="text-xs font-extrabold uppercase tracking-wider text-slate-500 mb-2">🔗 Đường dẫn trực tiếp tới các cổng chính thức:</div>' +
+                  '<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">' + portalsHtml + '</div>' +
+                '</div>' +
+
+                '<div class="bg-ueh-mint/70 rounded-2xl p-4 border border-emerald-200/80">' +
+                  '<div class="text-xs font-extrabold text-ueh-teal uppercase tracking-wider mb-2.5">📌 3 việc bạn sẽ làm tại trang này:</div>' +
+                  '<ul class="space-y-2">' + tasksHtml + '</ul>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+
+            '<div class="px-5 py-4 bg-slate-50 border-t border-slate-200/80 flex flex-wrap items-center justify-between gap-2.5">' +
+              '<a href="' + card.primaryUrl + '" target="_blank" rel="noopener noreferrer" data-track-click="Truy cập ngay ' + card.title + '" class="flex-1 sm:flex-initial text-center px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm shadow-sm transition ' + primaryBtnClass + '">' +
+                card.primaryLabel + ' ↗' +
+              '</a>' +
+              '<button type="button" data-guide-card="' + card.id + '" class="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-bold text-xs sm:text-sm transition">' +
+                '📖 Xem hướng dẫn thao tác' +
+              '</button>' +
+            '</div>' +
+          '</article>'
+        );
+      }).join('');
+    }
+
+    // 7.2 Render Roadmap Stages & Progress (Phân khu 2)
+    function renderRoadmap() {
+      const tabsContainer = document.getElementById('roadmapStageTabs');
+      const stagesContainer = document.getElementById('roadmapStagesContainer');
+      const percentEl = document.getElementById('roadmapProgressPercent');
+      const barEl = document.getElementById('roadmapProgressBar');
+      if (!tabsContainer || !stagesContainer) return;
+
+      // Calculate overall progress
+      let totalItems = 0;
+      let completedItems = 0;
+      ROADMAP_STAGES.forEach(function(st) {
+        st.items.forEach(function(item) {
+          totalItems += 1;
+          if (state.checkedItems[item.id]) completedItems += 1;
+        });
+      });
+      const pct = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+      if (percentEl) percentEl.textContent = pct + '% (' + completedItems + '/' + totalItems + ' mục)';
+      if (barEl) barEl.style.width = pct + '%';
+
+      // Render stage selector buttons
+      tabsContainer.innerHTML = ROADMAP_STAGES.map(function(st) {
+        const doneCount = st.items.filter(function(i) { return !!state.checkedItems[i.id]; }).length;
+        const isSelected = state.activeRoadmapStage === st.stageId;
+        return (
+          '<button type="button" data-stage-tab="' + st.stageId + '" class="text-left p-3.5 rounded-2xl border transition ' +
+          (isSelected
+            ? 'bg-ueh-teal text-white border-ueh-teal shadow-sm'
+            : 'bg-slate-50 hover:bg-ueh-tealLight/60 text-slate-800 border-slate-200') + '">' +
+            '<div class="flex items-center justify-between text-xs font-bold mb-1">' +
+              '<span>' + st.stageNumber + '</span>' +
+              '<span class="px-2 py-0.5 rounded-full text-[11px] ' + (isSelected ? 'bg-white/20 text-white' : 'bg-emerald-100 text-emerald-800') + '">' + doneCount + '/' + st.items.length + ' hoàn thành</span>' +
+            '</div>' +
+            '<div class="font-extrabold text-sm">' + st.title + '</div>' +
+          '</button>'
+        );
+      }).join('');
+
+      // Render Stage Cards
+      const stagesToShow = ROADMAP_STAGES.filter(function(st) {
+        return state.activeRoadmapStage === 'all' || state.activeRoadmapStage === st.stageId;
+      });
+
+      stagesContainer.innerHTML = stagesToShow.map(function(st) {
+        const doneCount = st.items.filter(function(i) { return !!state.checkedItems[i.id]; }).length;
+        const stagePct = Math.round((doneCount / st.items.length) * 100);
+
+        const itemsHtml = st.items.map(function(item) {
+          const checked = !!state.checkedItems[item.id];
+          return (
+            '<div class="p-3.5 rounded-2xl border transition ' + (checked ? 'bg-ueh-mint border-emerald-300' : 'bg-white border-slate-200 hover:border-ueh-teal') + '">' +
+              '<div class="flex items-start gap-3">' +
+                '<input type="checkbox" id="chk-' + item.id + '" data-roadmap-check="' + item.id + '" ' + (checked ? 'checked' : '') +
+                  ' class="mt-1 w-4 h-4 rounded text-ueh-teal focus:ring-ueh-teal cursor-pointer" />' +
+                '<div class="flex-1">' +
+                  '<label for="chk-' + item.id + '" class="text-xs sm:text-sm font-semibold cursor-pointer block ' + (checked ? 'line-through text-slate-500' : 'text-slate-800') + '">' +
+                    item.text +
+                  '</label>' +
+                  '<div class="mt-2 flex flex-wrap items-center gap-2">' +
+                    '<a href="' + item.url + '" target="_blank" rel="noopener noreferrer" data-track-click="Mở ' + item.linkLabel + '" class="inline-flex items-center gap-1 text-[11px] font-bold text-ueh-teal bg-ueh-tealLight hover:bg-ueh-sage px-2.5 py-1 rounded-lg transition">' +
+                      '🔗 ' + item.linkLabel + ' ↗' +
+                    '</a>' +
+                    '<button type="button" data-roadmap-guide="' + item.id + '" class="text-[11px] font-semibold text-slate-600 hover:text-ueh-orange underline">' +
+                      'Xem hướng dẫn chi tiết' +
+                    '</button>' +
+                  '</div>' +
+                '</div>' +
+              '</div>' +
+            '</div>'
+          );
+        }).join('');
+
+        return (
+          '<div class="bg-slate-50 rounded-3xl border border-slate-200 p-5 flex flex-col justify-between">' +
+            '<div>' +
+              '<div class="flex items-center justify-between gap-2 mb-1">' +
+                '<span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-ueh-teal text-white">' + st.stageNumber + '</span>' +
+                '<span class="text-xs font-bold text-ueh-teal">' + stagePct + '% hoàn thành</span>' +
+              '</div>' +
+              '<h3 class="text-base sm:text-lg font-extrabold text-slate-900 mt-1">' + st.title + '</h3>' +
+              '<p class="text-xs text-slate-500 mb-4">' + st.timeframe + '</p>' +
+              '<div class="space-y-2.5">' + itemsHtml + '</div>' +
+            '</div>' +
+          '</div>'
+        );
+      }).join('');
+    }
+
+    // 7.3 Render Smart Event & Scholarship Feed (Phân khu 3)
+    function renderFeed() {
+      const grid = document.getElementById('feedCardsGrid');
+      const countEl = document.getElementById('feedResultCount');
+      const typeVal = document.getElementById('filterType') ? document.getElementById('filterType').value : 'all';
+      const benefitVal = document.getElementById('filterBenefit') ? document.getElementById('filterBenefit').value : 'all';
+      const deadlineVal = document.getElementById('filterDeadline') ? document.getElementById('filterDeadline').value : 'all';
+      const keywordVal = document.getElementById('feedKeywordInput') ? document.getElementById('feedKeywordInput').value.trim().toLowerCase() : '';
+
+      if (!grid) return;
+
+      const filtered = FEED_ITEMS.filter(function(item) {
+        if (typeVal !== 'all' && item.type !== typeVal) return false;
+        if (benefitVal !== 'all' && item.benefits.indexOf(benefitVal) === -1) return false;
+        if (deadlineVal !== 'all' && item.deadlineStatus !== deadlineVal) return false;
+        if (keywordVal) {
+          const hay = (item.title + ' ' + item.summary + ' ' + item.source + ' ' + item.drlBadge).toLowerCase();
+          if (hay.indexOf(keywordVal) === -1) return false;
+        }
+        return true;
+      });
+
+      if (countEl) {
+        countEl.textContent = 'Đang hiển thị ' + filtered.length + ' / ' + FEED_ITEMS.length + ' thông báo';
+      }
+
+      if (filtered.length === 0) {
+        grid.innerHTML = (
+          '<div class="col-span-full bg-white rounded-2xl border border-slate-200 p-8 text-center">' +
+            '<p class="text-sm font-bold text-slate-700">Không tìm thấy thông báo trùng khớp với bộ lọc hiện tại.</p>' +
+            '<p class="text-xs text-slate-500 mt-1">Hãy nhấn "Xóa bộ lọc" để xem toàn bộ sự kiện và học bổng mới nhất từ DSA & UEH Youth.</p>' +
+          '</div>'
+        );
+        return;
+      }
+
+      grid.innerHTML = filtered.map(function(item) {
+        const isUrgent = item.deadlineStatus === 'urgent';
+        const benefitsHtml = item.benefits.map(function(b) {
+          return '<span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200 text-[11px] font-semibold">✓ ' + b + '</span>';
+        }).join('');
+
+        const gcalUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' +
+          encodeURIComponent('[UEH Freshman Hub] ' + item.title) +
+          '&dates=' + item.dateStr +
+          '&details=' + encodeURIComponent(item.summary + ' — Nguồn chính thức: ' + item.sourceUrl);
+
+        return (
+          '<article class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between card-hover">' +
+            '<div>' +
+              '<div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">' +
+                '<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-ueh-tealLight text-ueh-teal">' + item.type + '</span>' +
+                '<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold ' +
+                  (isUrgent ? 'bg-orange-100 text-ueh-orange border border-orange-200' : 'bg-slate-100 text-slate-700') + '">' +
+                  '⏰ ' + item.deadlineLabel +
+                '</span>' +
+              '</div>' +
+
+              '<div class="mb-2">' +
+                '<span class="inline-block text-[11px] font-bold text-ueh-orange bg-ueh-orangeLight px-2.5 py-0.5 rounded-lg border border-orange-200">' +
+                  '🏅 ' + item.drlBadge +
+                '</span>' +
+              '</div>' +
+
+              '<h3 class="text-sm sm:text-base font-extrabold text-slate-900 leading-snug mb-2">' + item.title + '</h3>' +
+              '<p class="text-xs text-slate-600 mb-3 leading-relaxed">' + item.summary + '</p>' +
+
+              '<div class="flex flex-wrap gap-1.5 mb-3">' + benefitsHtml + '</div>' +
+              '<div class="text-[11px] text-slate-500 mb-4">Nguồn: <strong class="text-slate-700">' + item.source + '</strong></div>' +
+            '</div>' +
+
+            '<div class="pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2">' +
+              '<a href="' + item.sourceUrl + '" target="_blank" rel="noopener noreferrer" data-track-click="Xem thông báo ' + item.type + '" class="flex-1 text-center px-3 py-2 rounded-xl bg-ueh-teal hover:bg-ueh-tealDark text-white text-xs font-bold transition">' +
+                'Xem chi tiết / Đăng ký ↗' +
+              '</a>' +
+              '<a href="' + gcalUrl + '" target="_blank" rel="noopener noreferrer" data-track-click="Đồng bộ Google Calendar" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-ueh-orangeLight hover:text-ueh-orange text-slate-700 text-xs font-bold border border-slate-200 transition" title="Lưu lịch nhắc tự động vào Google Calendar">' +
+                '📅 +Google Calendar' +
+              '</a>' +
+            '</div>' +
+          '</article>'
+        );
+      }).join('');
+    }
+
+    // 7.4 Render Accordion FAQ (Phân khu 4)
+    function renderFaq() {
+      const container = document.getElementById('faqAccordionContainer');
+      if (!container) return;
+
+      container.innerHTML = FAQ_ITEMS.map(function(faq) {
+        const isOpen = !!state.openFaqs[faq.id];
+        const stepsHtml = faq.answerSteps.map(function(step) {
+          return '<li class="text-xs sm:text-sm text-slate-700 leading-relaxed">' + step + '</li>';
+        }).join('');
+
+        const linksHtml = faq.links.map(function(lnk) {
+          return (
+            '<a href="' + lnk.url + '" target="_blank" rel="noopener noreferrer" data-track-click="Mở link cứu nguy FAQ" ' +
+            'class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-ueh-teal text-white hover:bg-ueh-tealDark text-xs font-bold transition">' +
+              lnk.label + ' ↗' +
+            '</a>'
+          );
+        }).join('');
+
+        return (
+          '<div id="' + faq.id + '" class="rounded-2xl border ' + (isOpen ? 'border-ueh-teal bg-ueh-mint/40 shadow-sm' : 'border-slate-200 bg-white') + ' overflow-hidden transition">' +
+            '<button type="button" data-faq-toggle="' + faq.id + '" class="w-full px-5 py-4 text-left flex items-center justify-between gap-3 hover:bg-slate-50/80 transition">' +
+              '<div class="flex flex-wrap items-center gap-2.5">' +
+                '<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-ueh-orangeLight text-ueh-orange border border-orange-200">' + faq.badge + '</span>' +
+                '<span class="font-extrabold text-sm sm:text-base text-slate-900">' + faq.question + '</span>' +
+              '</div>' +
+              '<span class="w-7 h-7 rounded-full bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center shrink-0">' +
+                (isOpen ? '▲' : '▼') +
+              '</span>' +
+            '</button>' +
+            (isOpen
+              ? '<div class="px-5 pb-5 pt-2 border-t border-slate-200/70 space-y-3">' +
+                  '<ul class="list-disc pl-5 space-y-1.5">' + stepsHtml + '</ul>' +
+                  '<div class="pt-2 flex flex-wrap items-center gap-2">' + linksHtml + '</div>' +
+                '</div>'
+              : '') +
+          '</div>'
+        );
+      }).join('');
+    }
+
+    // 7.5 Render Auto-suggest Search Dropdown (Khu vực 1)
+    function updateSearchDropdown(queryText) {
+      const dropdown = document.getElementById('searchDropdown');
+      const listEl = document.getElementById('searchDropdownList');
+      const countEl = document.getElementById('searchDropdownCount');
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (!dropdown || !listEl) return;
+
+      const q = (queryText || '').trim().toLowerCase();
+      if (clearBtn) {
+        if (q.length > 0) clearBtn.classList.remove('hidden');
+        else clearBtn.classList.add('hidden');
+      }
+
+      const matches = SEARCH_INDEX.filter(function(item) {
+        if (!q) return true;
+        return (
+          item.title.toLowerCase().indexOf(q) !== -1 ||
+          item.keywords.toLowerCase().indexOf(q) !== -1 ||
+          item.tag.toLowerCase().indexOf(q) !== -1 ||
+          item.desc.toLowerCase().indexOf(q) !== -1
+        );
+      });
+
+      if (countEl) {
+        countEl.textContent = q ? ('Tìm thấy ' + matches.length + ' kết quả cho "' + queryText + '"') : 'Gợi ý 7 tác vụ phổ biến nhất cho K52';
+      }
+
+      if (matches.length === 0) {
+        listEl.innerHTML = (
+          '<div class="p-4 text-xs text-slate-600">' +
+            'Không tìm thấy từ khóa khớp trực tiếp. Bạn có thể tra cứu thẳng trên <a href="https://hotro.ueh.edu.vn/bai-viet/dai-hoc-chinh-quy-2" target="_blank" rel="noopener noreferrer" class="text-ueh-teal font-bold underline">Kho tri thức UEH ↗</a>.' +
+          '</div>'
+        );
+      } else {
+        listEl.innerHTML = matches.map(function(m, idx) {
+          return (
+            '<div class="p-3.5 hover:bg-ueh-mint/60 transition flex flex-col sm:flex-row sm:items-center justify-between gap-2">' +
+              '<div class="space-y-0.5">' +
+                '<div class="flex items-center gap-2">' +
+                  '<span class="text-[11px] font-bold text-ueh-orange bg-ueh-orangeLight px-2 py-0.5 rounded-md">' + m.tag + '</span>' +
+                  '<span class="text-[11px] font-semibold text-slate-500">' + m.category + '</span>' +
+                  '<span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">⚡ ' + m.clicks + '</span>' +
+                '</div>' +
+                '<div class="font-bold text-xs sm:text-sm text-slate-900">' + m.title + '</div>' +
+                '<p class="text-xs text-slate-600">' + m.desc + '</p>' +
+              '</div>' +
+              '<div class="flex items-center gap-1.5 shrink-0">' +
+                '<button type="button" data-select-suggest="' + idx + '" data-suggest-tag="' + m.tag + '" class="px-3 py-1.5 rounded-xl bg-ueh-tealLight hover:bg-ueh-sage text-ueh-teal font-bold text-xs transition">' +
+                  'Điều hướng' +
+                '</button>' +
+                '<a href="' + m.url + '" target="_blank" rel="noopener noreferrer" data-track-click="Mở trực tiếp từ thanh tìm kiếm" class="px-3 py-1.5 rounded-xl bg-ueh-teal hover:bg-ueh-tealDark text-white font-bold text-xs transition">' +
+                  'Mở cổng ↗' +
+                '</a>' +
+              '</div>' +
+            '</div>'
+          );
+        }).join('');
+      }
+    }
+
+    function activateSearchResultByTag(tagValue) {
+      const item = SEARCH_INDEX.find(function(x) { return x.tag === tagValue; }) || SEARCH_INDEX[0];
+      if (!item) return;
+
+      recordUserClick('Chọn ' + item.tag);
+
+      const banner = document.getElementById('instantSearchBanner');
+      const tagEl = document.getElementById('instantBannerTag');
+      const titleEl = document.getElementById('instantBannerTitle');
+      const descEl = document.getElementById('instantBannerDesc');
+      const linkEl = document.getElementById('instantBannerLink');
+      const guideBtn = document.getElementById('instantBannerGuideBtn');
+
+      if (banner && tagEl && titleEl && descEl && linkEl && guideBtn) {
+        tagEl.textContent = item.tag + ' • ' + item.category;
+        titleEl.textContent = item.title;
+        descEl.textContent = item.desc;
+        linkEl.href = item.url;
+        guideBtn.setAttribute('data-open-card-guide', item.cardId);
+        banner.classList.remove('hidden');
+      }
+
+      const dropdown = document.getElementById('searchDropdown');
+      if (dropdown) dropdown.classList.add('hidden');
+
+      // Highlight target card or section
+      const targetEl = document.getElementById(item.cardId) || document.querySelector(item.targetSection);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        targetEl.classList.remove('highlight-pulse');
+        void targetEl.offsetWidth;
+        targetEl.classList.add('highlight-pulse');
+      }
+    }
+
+    // -----------------------------------------------------------------------
+    // 8. MODAL HELPERS (Walkthrough & Step-by-Step Guide)
+    // -----------------------------------------------------------------------
+    function openCardGuideModal(cardId) {
+      const card = LAUNCHPAD_CARDS.find(function(c) { return c.id === cardId; }) || LAUNCHPAD_CARDS[0];
+      const overlay = document.getElementById('guideModalOverlay');
+      const badge = document.getElementById('modalBadge');
+      const title = document.getElementById('modalTitle');
+      const body = document.getElementById('modalBody');
+      const link = document.getElementById('modalPrimaryLink');
+      if (!overlay || !badge || !title || !body || !link) return;
+
+      badge.textContent = card.groupBadge + ' • Hướng dẫn 3-Click';
+      title.textContent = card.title;
+      link.href = card.primaryUrl;
+
+      const stepsHtml = card.walkthroughSteps.map(function(s) {
+        return (
+          '<div class="p-3.5 rounded-2xl bg-ueh-mint border border-emerald-200 text-xs sm:text-sm text-slate-800 font-medium">' +
+            s +
+          '</div>'
+        );
+      }).join('');
+
+      const linksList = card.portals.map(function(p) {
+        return (
+          '<a href="' + p.url + '" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 hover:border-ueh-teal hover:bg-ueh-tealLight/50 transition text-xs">' +
+            '<span class="font-bold text-ueh-teal">' + p.name + ' (' + p.desc + ')</span>' +
+            '<span class="font-bold text-slate-700">Mở trang ↗</span>' +
+          '</a>'
+        );
+      }).join('');
+
+      body.innerHTML = (
+        '<div class="space-y-3">' +
+          '<p class="text-xs sm:text-sm text-slate-600">' + card.subtitle + '</p>' +
+          '<div class="font-bold text-xs uppercase tracking-wider text-ueh-teal">Quy trình chuẩn 3 cú nhấp chuột (3-Click Rule):</div>' +
+          '<div class="space-y-2">' + stepsHtml + '</div>' +
+          '<div class="font-bold text-xs uppercase tracking-wider text-slate-500 pt-2">Danh sách cổng thông tin trực thuộc nhóm này:</div>' +
+          '<div class="space-y-1.5">' + linksList + '</div>' +
+        '</div>'
+      );
+
+      overlay.classList.remove('hidden');
+    }
+
+    function openWalkthroughSimulatorModal() {
+      const overlay = document.getElementById('guideModalOverlay');
+      const badge = document.getElementById('modalBadge');
+      const title = document.getElementById('modalTitle');
+      const body = document.getElementById('modalBody');
+      const link = document.getElementById('modalPrimaryLink');
+      if (!overlay || !badge || !title || !body || !link) return;
+
+      badge.textContent = 'Mô phỏng Luồng Thao tác (Screen Recording Walkthrough)';
+      title.textContent = 'Minh họa Quy tắc "3-Click Rule" trên UEH Freshman Hub';
+      link.href = 'https://hotro.ueh.edu.vn/bai-viet/dang-ky-hoc-phan-356';
+
+      body.innerHTML = (
+        '<div class="space-y-4">' +
+          '<p class="text-xs sm:text-sm text-slate-600">' +
+            'Trong báo cáo Tư duy Thiết kế (Mục 2), nhóm có thể quay màn hình (Screen Recording) luồng 3 thao tác mẫu dưới đây để chứng minh tân sinh viên K52 không còn bị lạc giữa các đường link phân tán:' +
+          '</p>' +
+          '<div class="grid grid-cols-1 gap-3">' +
+            '<div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">' +
+              '<div class="font-extrabold text-ueh-teal text-sm">Thao tác 1 (Click 1): Bấm Quick Tag hoặc Gõ từ khóa</div>' +
+              '<p class="text-xs text-slate-600 mt-1">Tại trang chủ UEH Freshman Hub, tân sinh viên bấm vào thẻ <strong>#ĐăngKýHọcPhần</strong> (hoặc gõ "đăng ký học phần" vào thanh tìm kiếm Auto-suggest).</p>' +
+            '</div>' +
+            '<div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">' +
+              '<div class="font-extrabold text-ueh-teal text-sm">Thao tác 2 (Click 2): Xem tóm tắt "3 việc sẽ làm" & Hướng dẫn</div>' +
+              '<p class="text-xs text-slate-600 mt-1">Hệ thống tự động cuộn tới thẻ <strong>Nhóm 1: Học tập & Khảo thí</strong> và hiển thị rõ 3 bước chuẩn bị: xem TKB tại Ban Đào tạo (daotao.ueh.edu.vn), đọc hướng dẫn tại Kho tri thức và đăng nhập Portal.</p>' +
+            '</div>' +
+            '<div class="p-4 rounded-2xl bg-ueh-mint border border-emerald-300">' +
+              '<div class="font-extrabold text-emerald-900 text-sm">Thao tác 3 (Click 3): Chạm đúng cổng thông tin đích</div>' +
+              '<p class="text-xs text-slate-700 mt-1">Sinh viên bấm <strong>"Truy cập ngay Student Portal"</strong> (student.ueh.edu.vn) hoặc <strong>"Cẩm nang ĐKHP"</strong> (hotro.ueh.edu.vn) để hoàn tất thủ tục ngay lập tức.</p>' +
+            '</div>' +
+          '</div>' +
+        '</div>'
+      );
+
+      overlay.classList.remove('hidden');
+    }
+
+    // -----------------------------------------------------------------------
+    // 9. EVENT LISTENERS & INITIALIZATION
+    // -----------------------------------------------------------------------
+    document.addEventListener('DOMContentLoaded', function() {
+      loadSavedState();
+      renderLaunchpad();
+      renderRoadmap();
+      renderFeed();
+      renderFaq();
+      updateSearchDropdown('');
+
+      const searchInput = document.getElementById('heroSearchInput');
+      const searchDropdown = document.getElementById('searchDropdown');
+      const clearSearchBtn = document.getElementById('clearSearchBtn');
+      const searchSubmitBtn = document.getElementById('heroSearchSubmitBtn');
+
+      if (searchInput && searchDropdown) {
+        searchInput.addEventListener('focus', function() {
+          updateSearchDropdown(searchInput.value);
+          searchDropdown.classList.remove('hidden');
+        });
+        searchInput.addEventListener('input', function() {
+          updateSearchDropdown(searchInput.value);
+          searchDropdown.classList.remove('hidden');
+        });
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            const q = searchInput.value.trim().toLowerCase();
+            const match = SEARCH_INDEX.find(function(item) {
+              return item.title.toLowerCase().indexOf(q) !== -1 || item.keywords.toLowerCase().indexOf(q) !== -1;
+            }) || SEARCH_INDEX[0];
+            activateSearchResultByTag(match.tag);
+          }
+        });
+      }
+
+      if (clearSearchBtn && searchInput) {
+        clearSearchBtn.addEventListener('click', function() {
+          searchInput.value = '';
+          updateSearchDropdown('');
+          searchInput.focus();
+        });
+      }
+
+      if (searchSubmitBtn && searchInput) {
+        searchSubmitBtn.addEventListener('click', function() {
+          const q = searchInput.value.trim().toLowerCase();
+          const match = SEARCH_INDEX.find(function(item) {
+            return !q || item.title.toLowerCase().indexOf(q) !== -1 || item.keywords.toLowerCase().indexOf(q) !== -1;
+          }) || SEARCH_INDEX[0];
+          activateSearchResultByTag(match.tag);
+        });
+      }
+
+      // Close search dropdown when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!searchDropdown || !searchInput) return;
+        if (!searchDropdown.contains(e.target) && e.target !== searchInput && e.target !== clearSearchBtn) {
+          searchDropdown.classList.add('hidden');
+        }
+      });
+
+      // Quick Tag clicks
+      document.querySelectorAll('.quick-tag-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          const tag = btn.getAttribute('data-tag');
+          const query = btn.getAttribute('data-query') || '';
+          if (searchInput) searchInput.value = query;
+          activateSearchResultByTag(tag);
+        });
+      });
+
+      // Launchpad filter buttons
+      document.querySelectorAll('.launchpad-filter-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          state.launchpadFilter = btn.getAttribute('data-launchpad-filter') || 'all';
+          document.querySelectorAll('.launchpad-filter-btn').forEach(function(b) {
+            b.className = 'launchpad-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 transition';
+          });
+          btn.className = 'launchpad-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-ueh-teal text-white transition';
+          recordUserClick('Lọc nhóm cổng thông tin');
+          renderLaunchpad();
+        });
+      });
+
+      // Feed filters
+      ['filterType', 'filterBenefit', 'filterDeadline'].forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('change', function() {
+            recordUserClick('Lọc bảng tin sự kiện & học bổng');
+            renderFeed();
+          });
+        }
+      });
+      const feedKeywordInput = document.getElementById('feedKeywordInput');
+      if (feedKeywordInput) {
+        feedKeywordInput.addEventListener('input', function() {
+          renderFeed();
+        });
+      }
+      const resetFeedFiltersBtn = document.getElementById('resetFeedFiltersBtn');
+      if (resetFeedFiltersBtn) {
+        resetFeedFiltersBtn.addEventListener('click', function() {
+          document.getElementById('filterType').value = 'all';
+          document.getElementById('filterBenefit').value = 'all';
+          document.getElementById('filterDeadline').value = 'all';
+          document.getElementById('feedKeywordInput').value = '';
+          renderFeed();
+          showToast('Đã đặt lại bộ lọc bảng tin!');
+        });
+      }
+
+      // Toggle Google Calendar Flow Diagram
+      const calendarDiagram = document.getElementById('calendarFlowDiagram');
+      const toggleCalendarBtn = document.getElementById('toggleCalendarFlowBtn');
+      const hideCalendarBtn = document.getElementById('hideCalendarFlowBtn');
+      if (toggleCalendarBtn && calendarDiagram) {
+        toggleCalendarBtn.addEventListener('click', function() {
+          calendarDiagram.classList.toggle('hidden');
+          calendarDiagram.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+      }
+      if (hideCalendarBtn && calendarDiagram) {
+        hideCalendarBtn.addEventListener('click', function() {
+          calendarDiagram.classList.add('hidden');
+        });
+      }
+
+      // Expand / Collapse all FAQs
+      const expandAllFaqBtn = document.getElementById('expandAllFaqBtn');
+      const collapseAllFaqBtn = document.getElementById('collapseAllFaqBtn');
+      if (expandAllFaqBtn) {
+        expandAllFaqBtn.addEventListener('click', function() {
+          FAQ_ITEMS.forEach(function(f) { state.openFaqs[f.id] = true; });
+          renderFaq();
+        });
+      }
+      if (collapseAllFaqBtn) {
+        collapseAllFaqBtn.addEventListener('click', function() {
+          FAQ_ITEMS.forEach(function(f) { state.openFaqs[f.id] = false; });
+          renderFaq();
+        });
+      }
+
+      // Roadmap quick actions
+      const checkStage1Btn = document.getElementById('checkStage1Btn');
+      const resetRoadmapBtn = document.getElementById('resetRoadmapBtn');
+      if (checkStage1Btn) {
+        checkStage1Btn.addEventListener('click', function() {
+          ROADMAP_STAGES[0].items.forEach(function(i) { state.checkedItems[i.id] = true; });
+          saveRoadmapState();
+          renderRoadmap();
+          showToast('Đã đánh dấu hoàn thành toàn bộ Chặng 1!');
+        });
+      }
+      if (resetRoadmapBtn) {
+        resetRoadmapBtn.addEventListener('click', function() {
+          Object.keys(state.checkedItems).forEach(function(k) { state.checkedItems[k] = false; });
+          saveRoadmapState();
+          renderRoadmap();
+          showToast('Đã đặt lại tiến độ Lộ trình Tân sinh viên.');
+        });
+      }
+
+      // Account sync toggle
+      const accountSyncBtn = document.getElementById('accountSyncBtn');
+      const accountSyncLabel = document.getElementById('accountSyncLabel');
+      const accountSyncDot = document.getElementById('accountSyncDot');
+      const roadmapSyncStatusText = document.getElementById('roadmapSyncStatusText');
+      if (accountSyncBtn) {
+        accountSyncBtn.addEventListener('click', function() {
+          state.isAccountSynced = !state.isAccountSynced;
+          if (state.isAccountSynced) {
+            accountSyncLabel.textContent = 'Đã đồng bộ: nghia.k52@st.ueh.edu.vn';
+            accountSyncDot.className = 'w-2 h-2 rounded-full bg-emerald-500';
+            if (roadmapSyncStatusText) roadmapSyncStatusText.textContent = 'Tiến độ cá nhân (nghia.k52@st.ueh.edu.vn)';
+            showToast('Đã bật mô phỏng đồng bộ tiến độ theo email @st.ueh.edu.vn');
+          } else {
+            accountSyncLabel.textContent = 'Chế độ Khách (Chưa đồng bộ email)';
+            accountSyncDot.className = 'w-2 h-2 rounded-full bg-amber-500';
+            if (roadmapSyncStatusText) roadmapSyncStatusText.textContent = 'Tiến độ lưu cục bộ (Chế độ Khách)';
+            showToast('Đang ở chế độ Khách — Nhấn lại để đồng bộ @st.ueh.edu.vn');
+          }
+        });
+      }
+
+      // Clean Screenshot Mode toggle
+      const prototypeBanner = document.getElementById('prototypeBanner');
+      const reportGuideSection = document.getElementById('reportGuideSection');
+      const toggleCleanModeBtn = document.getElementById('toggleCleanModeBtn');
+      const triggerCleanScreenshotBtn = document.getElementById('triggerCleanScreenshotBtn');
+      const restorePrototypeBannerBtn = document.getElementById('restorePrototypeBannerBtn');
+
+      function setCleanMode(enabled) {
+        state.cleanScreenshotMode = enabled;
+        if (enabled) {
+          if (prototypeBanner) prototypeBanner.classList.add('hidden');
+          if (reportGuideSection) reportGuideSection.classList.add('hidden');
+          if (restorePrototypeBannerBtn) restorePrototypeBannerBtn.classList.remove('hidden');
+          showToast('Đã bật Chế độ Chụp ảnh Báo cáo! Bạn có thể chụp màn hình ngay.');
+        } else {
+          if (prototypeBanner) prototypeBanner.classList.remove('hidden');
+          if (reportGuideSection) reportGuideSection.classList.remove('hidden');
+          if (restorePrototypeBannerBtn) restorePrototypeBannerBtn.classList.add('hidden');
+          showToast('Đã hiện lại thanh công cụ Prototype.');
+        }
+      }
+
+      if (toggleCleanModeBtn) toggleCleanModeBtn.addEventListener('click', function() { setCleanMode(true); });
+      if (triggerCleanScreenshotBtn) triggerCleanScreenshotBtn.addEventListener('click', function() { setCleanMode(true); });
+      if (restorePrototypeBannerBtn) restorePrototypeBannerBtn.addEventListener('click', function() { setCleanMode(false); });
+
+      // Reset Click Counter
+      const resetClickCounterBtn = document.getElementById('resetClickCounterBtn');
+      if (resetClickCounterBtn) {
+        resetClickCounterBtn.addEventListener('click', function() {
+          state.clickCount = 0;
+          const badge = document.getElementById('clickCounterBadge');
+          if (badge) badge.textContent = '0 / 3 Click';
+          showToast('Đã đặt lại bộ đếm 3-Click Rule về 0.');
+        });
+      }
+
+      // Walkthrough button & Modal close buttons
+      const openWalkthroughBtn = document.getElementById('openWalkthroughBtn');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+      const modalSecondaryCloseBtn = document.getElementById('modalSecondaryCloseBtn');
+      const guideModalOverlay = document.getElementById('guideModalOverlay');
+      if (openWalkthroughBtn) {
+        openWalkthroughBtn.addEventListener('click', openWalkthroughSimulatorModal);
+      }
+      function closeGuideModal() {
+        if (guideModalOverlay) guideModalOverlay.classList.add('hidden');
+      }
+      if (closeModalBtn) closeModalBtn.addEventListener('click', closeGuideModal);
+      if (modalSecondaryCloseBtn) modalSecondaryCloseBtn.addEventListener('click', closeGuideModal);
+      if (guideModalOverlay) {
+        guideModalOverlay.addEventListener('click', function(e) {
+          if (e.target === guideModalOverlay) closeGuideModal();
+        });
+      }
+
+      // Instant banner buttons
+      const closeInstantBannerBtn = document.getElementById('closeInstantBannerBtn');
+      const instantBannerGuideBtn = document.getElementById('instantBannerGuideBtn');
+      if (closeInstantBannerBtn) {
+        closeInstantBannerBtn.addEventListener('click', function() {
+          document.getElementById('instantSearchBanner').classList.add('hidden');
+        });
+      }
+      if (instantBannerGuideBtn) {
+        instantBannerGuideBtn.addEventListener('click', function() {
+          const cid = instantBannerGuideBtn.getAttribute('data-open-card-guide') || 'card-academic';
+          if (cid.indexOf('faq-') === 0) {
+            state.openFaqs[cid] = true;
+            renderFaq();
+            const faqEl = document.getElementById(cid);
+            if (faqEl) faqEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          } else {
+            openCardGuideModal(cid);
+          }
+        });
+      }
+
+      // Jump buttons in Report Guide Section
+      document.querySelectorAll('.jump-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          const sel = btn.getAttribute('data-jump');
+          const target = sel ? document.querySelector(sel) : null;
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      // Delegated Event Listeners for dynamic elements
+      document.body.addEventListener('click', function(e) {
+        // 1. Track clicks on external portal links
+        const trackLink = e.target.closest('[data-track-click]');
+        if (trackLink) {
+          recordUserClick(trackLink.getAttribute('data-track-click'));
+        }
+
+        // 2. Open Card Guide Modal
+        const guideBtn = e.target.closest('[data-guide-card]');
+        if (guideBtn) {
+          const cardId = guideBtn.getAttribute('data-guide-card');
+          recordUserClick('Xem hướng dẫn thao tác');
+          openCardGuideModal(cardId);
+        }
+
+        // 3. Auto-suggest item selection
+        const suggestBtn = e.target.closest('[data-suggest-tag]');
+        if (suggestBtn) {
+          const tag = suggestBtn.getAttribute('data-suggest-tag');
+          activateSearchResultByTag(tag);
+        }
+
+        // 4. Roadmap Stage Filter Tab
+        const stageTab = e.target.closest('[data-stage-tab]');
+        if (stageTab) {
+          const stId = stageTab.getAttribute('data-stage-tab');
+          state.activeRoadmapStage = (state.activeRoadmapStage === stId) ? 'all' : stId;
+          renderRoadmap();
+        }
+
+        // 5. Roadmap item detailed guide
+        const rmGuideBtn = e.target.closest('[data-roadmap-guide]');
+        if (rmGuideBtn) {
+          const itemId = rmGuideBtn.getAttribute('data-roadmap-guide');
+          let foundItem = null;
+          let foundStage = null;
+          ROADMAP_STAGES.forEach(function(st) {
+            st.items.forEach(function(it) {
+              if (it.id === itemId) {
+                foundItem = it;
+                foundStage = st;
+              }
+            });
+          });
+          if (foundItem && foundStage) {
+            const overlay = document.getElementById('guideModalOverlay');
+            document.getElementById('modalBadge').textContent = foundStage.stageNumber + ' • ' + foundStage.title;
+            document.getElementById('modalTitle').textContent = foundItem.text;
+            document.getElementById('modalPrimaryLink').href = foundItem.url;
+            document.getElementById('modalBody').innerHTML = (
+              '<div class="p-4 rounded-2xl bg-ueh-mint border border-emerald-200 text-xs sm:text-sm text-slate-800 leading-relaxed">' +
+                foundItem.guide +
+              '</div>'
+            );
+            overlay.classList.remove('hidden');
+          }
+        }
+
+        // 6. FAQ Accordion toggle
+        const faqToggle = e.target.closest('[data-faq-toggle]');
+        if (faqToggle) {
+          const faqId = faqToggle.getAttribute('data-faq-toggle');
+          state.openFaqs[faqId] = !state.openFaqs[faqId];
+          recordUserClick('Mở câu hỏi Cứu nguy FAQ');
+          renderFaq();
+        }
+      });
+
+      // Delegated change listener for Roadmap checkboxes
+      document.body.addEventListener('change', function(e) {
+        const chk = e.target.closest('[data-roadmap-check]');
+        if (chk) {
+          const itemId = chk.getAttribute('data-roadmap-check');
+          state.checkedItems[itemId] = chk.checked;
+          saveRoadmapState();
+          renderRoadmap();
+          recordUserClick(chk.checked ? 'Đánh dấu hoàn thành mục lộ trình' : 'Bỏ đánh dấu mục lộ trình');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
